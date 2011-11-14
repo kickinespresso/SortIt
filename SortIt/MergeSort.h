@@ -18,14 +18,20 @@
 @property (retain) id delegate;
 @property (nonatomic, retain) NSMutableArray *elements;
 
-
 - (id)initWithArray:(NSMutableArray*)aArray;
-- (void)merge_sort:(int)low high:(int)high;
-- (void)merge:(int)low mid:(int)mid high:(int)high;
+- (void)run;
+//void merge(NSMutableArray *a, NSMutableArray *b, int lo, int mi, int hi);
+- (void)merge:(NSMutableArray *)a b:(NSMutableArray *)b lo:(int)lo mi:(int)mi hi:(int)hi;
+//void divideAndMerge(NSMutableArray *a, NSMutableArray *b, int lo, int hi);
+- (void)divideAndMerge:(NSMutableArray*)a b:(NSMutableArray *)b lo:(int)lo hi:(int) hi;
+//void mergeSort(NSMutableArray *array);
+- (void)mergeSort:(NSMutableArray *)array;
+
 @end
 
-@protocol HeapSortDelegate <NSObject>
+@protocol MergeSortDelegate <NSObject>
 
-- (void)exchangeValues:(MergeSort *)mergeSort first:(int)first second:(int)second;
+- (void)divideAndMergeItems:(MergeSort *)mergeSort a:(NSMutableArray*)a b:(NSMutableArray*)b lo:(int)lo hi:(int) hi;
+- (void)mergeItems:(MergeSort *)mergeSort first:(int)first second:(int)second;
 
 @end

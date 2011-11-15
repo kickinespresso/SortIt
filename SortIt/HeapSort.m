@@ -122,6 +122,14 @@
     int left = (2*i);
     int right  = (2*i)+1;
     NSLog(@"i %d %d , %d", i, left, right);
+
+    [self.delegate currentItemHeap:self item:i]; //Animate
+    
+    //Animate
+    if(left <= heapsize){
+        [self.delegate currentItemHeap:self item:left];
+    }
+    
     //if (le<=heapsize) and (A[le]>A[i])
     if (left <= heapsize  && ([[array objectAtIndex:left] intValue] > [[array objectAtIndex:i] intValue])) {
         //largest <- le
@@ -131,15 +139,23 @@
         largest = i;
     }
     
+    //Animate
+    if(right <= heapsize){
+        [self.delegate currentItemHeap:self item:right];
+    }
+    
     //if (ri<=heapsize) and (A[ri]>A[largest])
     if ((right<=heapsize) && ([[array objectAtIndex:right] intValue] >  [[array objectAtIndex:largest] intValue])){
-        //largest <- ri   
+        //largest <- ri
         largest = right;
     }
     
+    [self.delegate findLargestHeap:self item:largest];
+    
     if (largest != i) {
         //exchange A[i] <-> A[largest]
-        [self.delegate exchangeValues:self first:i second:largest];
+        [self.delegate findMinItemHeap:self item:i]; //Animate
+        [self.delegate exchangeValues:self first:i second:largest]; //Animate
         [array exchangeObjectAtIndex:i withObjectAtIndex:largest];
         //Heapify(A, largest)
         [self heapify:array i:largest];

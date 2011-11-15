@@ -14,6 +14,7 @@
 @synthesize firstLocation;
 @synthesize secondIndex;
 @synthesize secondLocation;
-
+@synthesize arrow;
+@synthesize isArrow;
 
 @end

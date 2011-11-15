@@ -49,6 +49,8 @@
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {
         
+        gameSpeed = 1;
+        
         // ask director the the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
         
@@ -66,7 +68,7 @@
             resOffset = 0.9;
         }
 		// create and initialize a Label
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Sort It" fontName:@"Marker Felt" fontSize:titleFontSize];
+		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Sorting" fontName:@"Marker Felt" fontSize:titleFontSize];
 	
 		// position the label on the center of the screen
 		label.position =  ccp( size.width /2 , size.height * resOffset );
@@ -110,11 +112,11 @@
         CCLabelTTF *doneLabel = [CCLabelTTF labelWithString:@"Done" fontName:@"Marker Felt" fontSize:titleFontSize];
         CCMenuItemFont *doneButton = [CCMenuItemLabel itemWithLabel:doneLabel target:self selector:@selector(doneButton:)];
 
-
         doneMenu = [CCMenu menuWithItems:doneButton, nil];
         [self addChild:doneMenu];
         doneMenu.visible = FALSE;
         doneMenu.position=ccp(size.width * .1 ,size.height *.1);
+        
 
 	}
     
@@ -259,9 +261,14 @@
     CGSize size = [[CCDirector sharedDirector] winSize];
     int spacing = size.width / num;
     
+    //Clean Up
     if(elements != nil){
+        [self removeChild:greenArrow cleanup:YES];
+        [self removeChild:redArrow cleanup:YES];
+        [self removeChild:blueArrow cleanup:YES];
         [elements release];
     }
+    
     
     elements = [[NSMutableArray alloc] init];
     
@@ -279,20 +286,57 @@
     
     int maxNumValue =100;
 
+    //float offset = (arc4random() % 50) *.01;
+    float offset = [self randomFloatBetween:.8 and:1.2];
+
+   // NSLog(@"offset: %f",offset);
     for (int i = 0; i < num; i++){
-        
+
+               
         [elements addObject:[NSNumber numberWithInt:(arc4random() % maxNumValue)]];
         CCLabelTTF *label = [CCLabelTTF labelWithString:[[elements objectAtIndex:i] stringValue] fontName:@"Marker Felt" fontSize:fontSize];
-        label.position = ccp( ((spacing)*(i))+(spacing/2) , size.height/2 );
+        label.position = ccp(((spacing)*(i))+(spacing/2), (size.height/2)*offset);
+
+        if(( [[NSNumber numberWithFloat:(offset *100)] intValue] % 2) == 0){
+            //if even
+             [label setColor:ccRED];
+        }else{
+            //if odd
+            [label setColor:ccGREEN];
+        }
+        
+        //label.position = ccp(size.width/2, size.height * .3);
         [self addChild:label];
+        //CCMoveTo* moveSprite = [CCMoveTo actionWithDuration:1 position:ccp( ((spacing)*(i))+(spacing/2) , size.height/2 )];
+        //label.position = ccp( ((spacing)*(i))+(spacing/2) , size.height/2 );
+        //[label runAction:moveSprite];
         [spriteElements addObject: label];
         
+        
+        
     }
+   
+    [self stopAllActions];
+    
+        
+    greenArrow = [CCSprite spriteWithFile:@"greenArrow.png" ];
+    greenArrow.position=ccp(size.width/2,size.height/4);
+    [self addChild:greenArrow z:2];
+    
 
+    redArrow = [CCSprite spriteWithFile:@"redArrow.png" ];
+    redArrow.position=ccp(-100,-100);
+    [self addChild:redArrow z:2];
+    
+    blueArrow = [CCSprite spriteWithFile:@"blueArrow.png" ];
+    blueArrow.position=ccp(size.width/3,size.height/4);
+    [self addChild:blueArrow z:2];
+   
 }
 
+//////////////
 
-
+//Heap Sort
 - (void)exchangeValues:(HeapSort *)heapSort first:(int)first second:(int)second{
  
     //exchange positions on screen
@@ -305,9 +349,59 @@
     action.firstLocation = firstSprite.position;
     action.secondIndex = second;
     action.secondLocation = secondSprite.position;
+    action.isArrow = FALSE;
     [actionQueue addObject:action];
     
 }
+
+- (void)currentItemHeap:(HeapSort *)heapSort item:(int)item{
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+    //CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
+    
+    SortAction *action = [[SortAction alloc] init];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y - 50;
+    action.firstLocation = temp;
+    //action.secondIndex = second;
+    //action.secondLocation = secondSprite.position;
+    action.arrow = greenArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
+}
+
+- (void)findMinItemHeap:(HeapSort *)heapSort item:(int)item{
+    
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+    
+    SortAction *action = [[SortAction alloc] init];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y + 50;
+    action.firstLocation = temp;
+    //action.secondIndex = second;
+    //action.secondLocation = secondSprite.position;
+    action.arrow = blueArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
+}
+
+- (void)findLargestHeap:(HeapSort *)heapSort item:(int)item{
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+    
+    SortAction *action = [[SortAction alloc] init];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y + 50;
+    action.firstLocation = temp;
+    //action.secondIndex = second;
+    //action.secondLocation = secondSprite.position;
+    action.arrow = redArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
+}
+
+//Merge Sort
 
 - (void)mergeItems:(MergeSort *)mergeSort first:(int)first second:(int)second{
     
@@ -321,9 +415,12 @@
     action.firstLocation = firstSprite.position;
     action.secondIndex = second;
     action.secondLocation = secondSprite.position;
+    action.isArrow = FALSE;
     [actionQueue addObject:action];
     
 }
+
+
 
 - (void)divideAndMergeItems:(MergeSort *)mergeSort a:(NSMutableArray*)a b:(NSMutableArray*)b lo:(int)lo hi:(int)hi {
  
@@ -336,6 +433,8 @@
     //Merge and delete layer
 }
 
+//Bubble Sort
+
 - (void)exchangeItemsBubble:(BubbleSort *)bubbleSort first:(int)first second:(int)second{
     
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:first];
@@ -346,8 +445,40 @@
     action.firstLocation = firstSprite.position;
     action.secondIndex = second;
     action.secondLocation = secondSprite.position;
+    action.isArrow = FALSE;
     [actionQueue addObject:action];
     
+}
+
+- (void)currentItemBubble:(BubbleSort *)BubbleSort item:(int)item{
+    
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+    //CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
+    
+    SortAction *action = [[SortAction alloc] init];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y - 50;
+    action.firstLocation = temp;
+    //action.secondIndex = second;
+    //action.secondLocation = secondSprite.position;
+    action.arrow = greenArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
+}
+- (void)findMinItemBubble:(BubbleSort *)BubbleSort item:(int)item{
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+    
+    SortAction *action = [[SortAction alloc] init];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y + 50;
+    action.firstLocation = temp;
+    //action.secondIndex = second;
+    //action.secondLocation = secondSprite.position;
+    action.arrow = blueArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
 }
 
 
@@ -361,9 +492,45 @@
     action.firstLocation = firstSprite.position;
     action.secondIndex = second;
     action.secondLocation = secondSprite.position;
+    action.isArrow = FALSE;
     [actionQueue addObject:action];
     
 }
+
+- (void)currentItemSelection:(SelectionSort *)selectionSort item:(int)item{
+    
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+    //CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
+    
+    SortAction *action = [[SortAction alloc] init];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y - 50;
+    action.firstLocation = temp;
+    //action.secondIndex = second;
+    //action.secondLocation = secondSprite.position;
+    action.arrow = greenArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
+    
+}
+
+- (void)findMinItemSelection:(SelectionSort *)selectionSort item:(int)item{
+    
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+
+    SortAction *action = [[SortAction alloc] init];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y + 50;
+    action.firstLocation = temp;
+    //action.secondIndex = second;
+    //action.secondLocation = secondSprite.position;
+    action.arrow = blueArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
+}
+
 
 - (void)exchangeItemsInsertion:(InsertionSort *)insertionSort first:(int)first second:(int)second{
     
@@ -375,8 +542,40 @@
     action.firstLocation = firstSprite.position;
     action.secondIndex = second;
     action.secondLocation = secondSprite.position;
+    action.isArrow = FALSE;
     [actionQueue addObject:action];
     
+}
+
+- (void)currentItemInsertion:(InsertionSort *)insertionSort item:(int)item{
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+    //CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
+    
+    SortAction *action = [[SortAction alloc] init];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y - 50;
+    action.firstLocation = temp;
+    //action.secondIndex = second;
+    //action.secondLocation = secondSprite.position;
+    action.arrow = greenArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
+}
+
+- (void)findMinItemInsertion:(InsertionSort *)insertionSort item:(int)item{
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+    
+    SortAction *action = [[SortAction alloc] init];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y + 50;
+    action.firstLocation = temp;
+    //action.secondIndex = second;
+    //action.secondLocation = secondSprite.position;
+    action.arrow = blueArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
 }
 
 - (void)sort:(id)sender{
@@ -387,42 +586,63 @@
     
     for (SortAction* action in actionQueue){
         
-        CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:action.firstIndex];
-        CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:action.secondIndex];
-        id delay = [CCDelayTime actionWithDuration:i];
+        id delay = [CCDelayTime actionWithDuration:(i*gameSpeed)];
         
-        //CCMoveTo* firstAction = [CCMoveTo actionWithDuration:1 position:action.secondLocation];
-        //CCMoveTo* secondAction = [CCMoveTo actionWithDuration:1 position:action.firstLocation];
-        ccBezierConfig bezierFirst;
-        bezierFirst.controlPoint_1 = action.firstLocation;
-        CGPoint p2= action.secondLocation;
-        CGPoint p1= action.firstLocation;
-        
-        bezierFirst.controlPoint_2 = ccp(abs(p2.x + p1.x)/2 , p2.y + jumpHeight);
-        bezierFirst.endPosition = action.secondLocation;
-           
-        ccBezierConfig bezierSecond;
-        bezierSecond.controlPoint_1 = action.secondLocation;
-        
-        bezierSecond.controlPoint_2 = ccp(abs(p1.x + p2.x)/2, p1.y + jumpHeight);
-        bezierSecond.endPosition =action.firstLocation;
-        
-        CCBezierTo* firstAction = [CCBezierTo actionWithDuration:1 bezier:bezierFirst];
-        CCBezierTo* secondAction = [CCBezierTo actionWithDuration:1 bezier:bezierSecond];
-        
-        /*
-        [firstSprite runAction:[CCMoveTo actionWithDuration:1 position:action.secondLocation]];
-        [secondSprite runAction:[CCMoveTo actionWithDuration:1 position:action.firstLocation]];
-        */
-        
-        [firstSprite runAction:[CCSequence actions: delay, firstAction, nil]];
-        [secondSprite runAction:[CCSequence actions: delay, secondAction, nil]];
+        //Is it an arrow?
+        if (action.arrow != nil) {
+            CCSprite* arrow = action.arrow;
+            CCMoveTo* firstAction = [CCMoveTo actionWithDuration:1 position:action.firstLocation];
+            [arrow runAction:[CCSequence actions: delay, firstAction, nil]];
+            
+        }else {
+            CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:action.firstIndex];
+            CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:action.secondIndex];
+            
+            
+            //CCMoveTo* firstAction = [CCMoveTo actionWithDuration:1 position:action.secondLocation];
+            //CCMoveTo* secondAction = [CCMoveTo actionWithDuration:1 position:action.firstLocation];
+            ccBezierConfig bezierFirst;
+            bezierFirst.controlPoint_1 = action.firstLocation;
+            CGPoint p2= action.secondLocation;
+            CGPoint p1= action.firstLocation;
+            
+            bezierFirst.controlPoint_2 = ccp(abs(p2.x + p1.x)/2 , p2.y + jumpHeight);
+            bezierFirst.endPosition = action.secondLocation;
+            
+            ccBezierConfig bezierSecond;
+            bezierSecond.controlPoint_1 = action.secondLocation;
+            
+            bezierSecond.controlPoint_2 = ccp(abs(p1.x + p2.x)/2, p1.y + jumpHeight);
+            bezierSecond.endPosition =action.firstLocation;
+            
+            CCBezierTo* firstAction = [CCBezierTo actionWithDuration:1 bezier:bezierFirst];
+            CCBezierTo* secondAction = [CCBezierTo actionWithDuration:1 bezier:bezierSecond];
+            
+            /*
+             [firstSprite runAction:[CCMoveTo actionWithDuration:1 position:action.secondLocation]];
+             [secondSprite runAction:[CCMoveTo actionWithDuration:1 position:action.firstLocation]];
+             */
+            
+            [firstSprite runAction:[CCSequence actions: delay, firstAction, nil]];
+            [secondSprite runAction:[CCSequence actions: delay, secondAction, nil]];
+            
+            [spriteElements exchangeObjectAtIndex:action.firstIndex withObjectAtIndex:action.secondIndex];
+            
+        }
 
-        [spriteElements exchangeObjectAtIndex:action.firstIndex withObjectAtIndex:action.secondIndex];
         i++;
         
     }
     
+}
+
+- (void)setSpeed:(ConfigMenuViewController *)setSpeed speed:(float)speed{
+    gameSpeed = speed;
+}
+
+- (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber {
+    float diff = bigNumber - smallNumber;
+    return (((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * diff) + smallNumber;
 }
 
 // on "dealloc" you need to release all your retained objects

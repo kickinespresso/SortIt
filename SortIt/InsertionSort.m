@@ -41,10 +41,12 @@
     int i, j, index;
     for (i = 1; i < [array count]; ++i)
     {
+        [self.delegate currentItemInsertion:self item:i];
         //index = a[i];
         index = [[array objectAtIndex:i] intValue];
         
         for (j = i; j > 0 && [[array objectAtIndex:(j-1)] intValue] > index; j--){
+            [self.delegate findMinItemInsertion:self item:j];
             //a[j] = a[j-1];
             //[array objectAtIndex:j] = [array objectAtIndex:(j-1)];
             //[array exchangeObjectAtIndex:j withObjectAtIndex:(j-1)];

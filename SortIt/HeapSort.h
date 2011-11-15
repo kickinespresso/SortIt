@@ -33,6 +33,8 @@
 @protocol HeapSortDelegate <NSObject>
 
 - (void)exchangeValues:(HeapSort *)heapSort first:(int)first second:(int)second;
-
+- (void)currentItemHeap:(HeapSort *)heapSort item:(int)item;
+- (void)findMinItemHeap:(HeapSort *)heapSort item:(int)item;
+- (void)findLargestHeap:(HeapSort *)heapSort item:(int)item;
 @end
 

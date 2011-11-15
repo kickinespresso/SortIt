@@ -43,11 +43,13 @@
     for (i = 0; i < [array count] - 1; ++i)
     {
         int j, min;
+        [self.delegate currentItemSelection:self item:i];
         min = i;
         for (j = i+1; j < [array count]; ++j)
         {
             //if (a[j] < a[min])
                 //min = j;
+            [self.delegate findMinItemSelection:self item:j];
             if([[array objectAtIndex:j] intValue] < [[array objectAtIndex:min] intValue]){
                 min = j;
             }

@@ -29,5 +29,6 @@
 @protocol BubbleSortDelegate <NSObject>
 
 - (void)exchangeItemsBubble:(BubbleSort *)bubbleSort first:(int)first second:(int)second;
-
+- (void)currentItemBubble:(BubbleSort *)BubbleSort item:(int)item;
+- (void)findMinItemBubble:(BubbleSort *)BubbleSort item:(int)item;
 @end

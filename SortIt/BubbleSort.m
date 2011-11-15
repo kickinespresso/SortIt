@@ -41,8 +41,10 @@
     int i, j;
     for (i = 0; i < ([array count] - 1); ++i)
     {
+        [self.delegate currentItemBubble:self item:i];
         for (j = 0; j < [array count] - 1 - i; ++j )
         {
+            [self.delegate findMinItemBubble:self item:j];
             //if (a[j] > a[j+1])
             if([[array objectAtIndex:j] intValue] > [[array objectAtIndex:(j+1)] intValue])
             {

@@ -14,9 +14,9 @@
 #import "BubbleSort.h"
 #import "SelectionSort.h"
 #import "InsertionSort.h"
-
+#import "ConfigMenuViewController.h"
 // HelloWorldLayer
-@interface HelloWorldLayer  : CCLayer <HeapSortDelegate, MergeSortDelegate, BubbleSortDelegate, SelectionSortDelegate, InsertionSortDelegate> {
+@interface HelloWorldLayer  : CCLayer <HeapSortDelegate, MergeSortDelegate, BubbleSortDelegate, SelectionSortDelegate, InsertionSortDelegate, ConfigMenuViewControllerDelegate> {
     
     HeapSort* heapSort;
     MergeSort* mergeSort;
@@ -24,6 +24,11 @@
     SelectionSort* selectionSort;
     InsertionSort* insertionSort;
     
+    CCSprite*   greenArrow;
+    CCSprite*   redArrow;
+    CCSprite*   blueArrow;
+    
+   
     NSMutableArray* spriteElements;
     NSMutableArray* elements;
     NSMutableArray* actionQueue;
@@ -31,6 +36,8 @@
     int titleFontSize;
     int fontSize;
     float resOffset;
+    
+    float gameSpeed;
     
     CCMenu *menu;
     CCMenu *doneMenu;
@@ -57,5 +64,7 @@
 - (void)startSelectionSort:(id)sender;
 
 - (void)sort:(id)sender;
+
+- (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber;
 
 @end

@@ -29,6 +29,8 @@
 @protocol InsertionSortDelegate <NSObject>
 
 - (void)exchangeItemsInsertion:(InsertionSort *)insertionSort first:(int)first second:(int)second;
+- (void)currentItemInsertion:(InsertionSort *)insertionSort item:(int)item;
+- (void)findMinItemInsertion:(InsertionSort *)insertionSort item:(int)item;
 
 
 

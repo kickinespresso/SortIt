@@ -15,6 +15,7 @@
 #import "SelectionSort.h"
 #import "InsertionSort.h"
 #import "ConfigMenuViewController.h"
+#import "ConfigMenuViewControlleriPhone.h"
 // HelloWorldLayer
 @interface HelloWorldLayer  : CCLayer <HeapSortDelegate, MergeSortDelegate, BubbleSortDelegate, SelectionSortDelegate, InsertionSortDelegate, ConfigMenuViewControllerDelegate> {
     
@@ -43,6 +44,7 @@
     CCMenu *doneMenu;
     
     ConfigMenuViewController *configMenuViewController;
+    ConfigMenuViewControlleriPhone *configMenuViewControlleriPhone;
     
 }
 
@@ -57,6 +59,7 @@
 @property (nonatomic, retain) NSMutableArray* actionQueue;
 
 @property (nonatomic, retain) ConfigMenuViewController *configMenuViewController;
+@property (nonatomic, retain) ConfigMenuViewControlleriPhone *configMenuViewControlleriPhone;
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;

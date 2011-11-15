@@ -12,10 +12,16 @@
 #import "GameConfig.h"
 #import "HelloWorldLayer.h"
 #import "RootViewController.h"
-
+#import "FlurryAnalytics.h"
+//JNDBX72ADY2XNGWM1AT3
 @implementation AppDelegate
 
 @synthesize window;
+
+void uncaughtExceptionHandler(NSException *exception) {
+    [FlurryAnalytics logError:@"Uncaught" message:@"Crash!" exception:exception];
+}
+
 
 - (void) removeStartupFlicker
 {
@@ -40,6 +46,13 @@
 }
 - (void) applicationDidFinishLaunching:(UIApplication*)application
 {
+    
+
+    //Setup Flurry
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    [FlurryAnalytics startSession:@"JNDBX72ADY2XNGWM1AT3"];
+    
+    
 	// Init the window
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	

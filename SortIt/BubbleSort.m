@@ -28,11 +28,11 @@
 }
 
 - (void)run{
-    NSLog(@"Starting Bubble Sort");
-    NSLog(@"Before %@",[elements description]);
+    //NSLog(@"Starting Bubble Sort");
+    //NSLog(@"Before %@",[elements description]);
     //mergeSort(elements);
     [self bubbleSort:elements];
-    NSLog(@"After: %@",[elements description]);
+    //NSLog(@"After: %@",[elements description]);
 }
 
 //void BubbleSort(int a[], int array_size)

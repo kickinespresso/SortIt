@@ -43,9 +43,9 @@
          */
 
         
-        NSLog(@"Before %@",[elements description]);
+        //NSLog(@"Before %@",[elements description]);
         [self heapSort:elements];
-        NSLog(@"After: %@",[elements description]);
+        //NSLog(@"After: %@",[elements description]);
         
     }
     
@@ -68,10 +68,10 @@
 }
 
 - (void)run{
-    NSLog(@"Starting Heap Sort");
-    NSLog(@"Before %@",[elements description]);
+    //NSLog(@"Starting Heap Sort");
+    //NSLog(@"Before %@",[elements description]);
     [self heapSort:elements];
-    NSLog(@"After: %@",[elements description]);
+    //NSLog(@"After: %@",[elements description]);
 }
 
 
@@ -98,7 +98,7 @@
     
     
 - (void)buildHeap:(NSMutableArray*)array {
-    NSLog(@"Build Heap");
+    //NSLog(@"Build Heap");
     //heapsize <- length(A)
     heapsize = [array count]-1;
     //    for i <- floor( length/2 ) downto 1
@@ -107,13 +107,13 @@
         //Heapify(A, i)
         [self heapify:array i:i];
     }
-    NSLog(@"done building heap");
+    //NSLog(@"done building heap");
         
 }    
     
     
 - (void)heapify:(NSMutableArray*)array i:(int)i {   
-    NSLog(@"Heapify");
+    //NSLog(@"Heapify");
     //le <- left(i)
     //ri <- right(i)
     //int left = [array objectAtIndex:(i+1)];
@@ -121,7 +121,7 @@
     
     int left = (2*i);
     int right  = (2*i)+1;
-    NSLog(@"i %d %d , %d", i, left, right);
+    //NSLog(@"i %d %d , %d", i, left, right);
 
     [self.delegate currentItemHeap:self item:i]; //Animate
     

@@ -14,6 +14,7 @@
 #import "SortAction.h"
 #import "ConfigMenuViewController.h"
 #import "CocoaHelper.h"
+#import "FlurryAnalytics.h"
 
 
 // HelloWorldLayer implementation
@@ -30,6 +31,7 @@
 @synthesize actionQueue;
 
 @synthesize configMenuViewController;
+@synthesize configMenuViewControlleriPhone;
 
 +(CCScene *) scene
 {
@@ -76,8 +78,8 @@
 	
 		// position the label on the center of the screen
 		label.position =  ccp( size.width /2 , size.height * resOffset );
-        NSLog(@"height: %f", size.height );
-        NSLog(@"width: %f", size.width ); 
+        //NSLog(@"height: %f", size.height );
+        //NSLog(@"width: %f", size.width ); 
         
        
 		
@@ -129,12 +131,22 @@
 
         optionsMenu.position=ccp(size.width * .9 ,size.height *.1);
         
-        // --- Game Management Config Menu --- // Modal View Controll
-        // allocate for later display
-        configMenuViewController = [[ConfigMenuViewController alloc] initWithNibName:@"ConfigMenuViewController" bundle:nil];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+            //Phone is detected//
+            configMenuViewControlleriPhone = [[ConfigMenuViewControlleriPhone alloc] initWithNibName:@"ConfigMenuViewControlleriPhone" bundle:nil];
+            configMenuViewControlleriPhone.delegate = self;
+        }else {
+            //iPad is detected.
+            // --- Game Management Config Menu --- // Modal View Controll
+            // allocate for later display
+            configMenuViewController = [[ConfigMenuViewController alloc] initWithNibName:@"ConfigMenuViewController" bundle:nil];
+            
+            //Set delegate as self for the delegate protocol
+            configMenuViewController.delegate = self;
+        }
         
-        //Set delegate as self for the delegate protocol
-        configMenuViewController.delegate = self;
+        
+       
 
         
 	}
@@ -188,12 +200,21 @@
 
 - (void)optionsButton:(id)sender{
 
-    [CocoaHelper showUIViewController:configMenuViewController];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        [CocoaHelper showUIViewController:configMenuViewControlleriPhone];
+    }else{
+        [CocoaHelper showUIViewController:configMenuViewController];    
+    }
+    
     
 }
 
 //Config Menu Delegate
 - (void)setSpeed:(ConfigMenuViewController *)setSpeed speed:(float)speed{
+    gameSpeed  = speed;
+}
+
+- (void)setSpeediPhone:(ConfigMenuViewControlleriPhone *)setSpeed speed:(float)speed{
     gameSpeed  = speed;
 }
 
@@ -220,6 +241,8 @@
     
     [self sort:self];
     
+    [FlurryAnalytics logEvent:@"Heap Sort"];
+    
 }
 
 - (void)startInsertionSort:(id)sender{
@@ -241,6 +264,8 @@
     [insertionSort release];
     
     [self sort:self];
+    
+    [FlurryAnalytics logEvent:@"Insertion Sort"];
     
 }
 
@@ -264,6 +289,7 @@
     
     [self sort:self];
     
+    [FlurryAnalytics logEvent:@"Bubble Sort"];
 }
 
 - (void)startSelectionSort:(id)sender{
@@ -285,6 +311,8 @@
     [selectionSort release];
     
     [self sort:self];
+    
+    [FlurryAnalytics logEvent:@"Selection Sort"];
     
 }
 
@@ -376,7 +404,7 @@
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:first];
     CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
     
-    SortAction *action = [[SortAction alloc] init];
+    SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = first;
     action.firstLocation = firstSprite.position;
     action.secondIndex = second;
@@ -390,7 +418,7 @@
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
     //CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
     
-    SortAction *action = [[SortAction alloc] init];
+    SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = item;
     CGPoint temp = firstSprite.position;
     temp.y = temp.y - 50;
@@ -406,7 +434,7 @@
     
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
     
-    SortAction *action = [[SortAction alloc] init];
+    SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = item;
     CGPoint temp = firstSprite.position;
     temp.y = temp.y + 50;
@@ -421,7 +449,7 @@
 - (void)findLargestHeap:(HeapSort *)heapSort item:(int)item{
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
     
-    SortAction *action = [[SortAction alloc] init];
+    SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = item;
     CGPoint temp = firstSprite.position;
     temp.y = temp.y + 50;
@@ -442,7 +470,7 @@
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:first];
     CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
     
-    SortAction *action = [[SortAction alloc] init];
+    SortAction *action = [[[SortAction alloc] init]autorelease];
     action.firstIndex = first;
     action.firstLocation = firstSprite.position;
     action.secondIndex = second;
@@ -472,7 +500,7 @@
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:first];
     CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
     
-    SortAction *action = [[SortAction alloc] init];
+    SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = first;
     action.firstLocation = firstSprite.position;
     action.secondIndex = second;
@@ -487,7 +515,7 @@
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
     //CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
     
-    SortAction *action = [[SortAction alloc] init];
+    SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = item;
     CGPoint temp = firstSprite.position;
     temp.y = temp.y - 50;
@@ -501,7 +529,7 @@
 - (void)findMinItemBubble:(BubbleSort *)BubbleSort item:(int)item{
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
     
-    SortAction *action = [[SortAction alloc] init];
+    SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = item;
     CGPoint temp = firstSprite.position;
     temp.y = temp.y + 50;
@@ -519,7 +547,7 @@
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:first];
     CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
     
-    SortAction *action = [[SortAction alloc] init];
+    SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = first;
     action.firstLocation = firstSprite.position;
     action.secondIndex = second;
@@ -534,7 +562,7 @@
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
     //CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
     
-    SortAction *action = [[SortAction alloc] init];
+    SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = item;
     CGPoint temp = firstSprite.position;
     temp.y = temp.y - 50;
@@ -547,11 +575,10 @@
     
 }
 
-- (void)findMinItemSelection:(SelectionSort *)selectionSort item:(int)item{
-    
+- (void)compareItemSelection:(SelectionSort *)selectionSort item:(int)item{
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
-
-    SortAction *action = [[SortAction alloc] init];
+    
+    SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = item;
     CGPoint temp = firstSprite.position;
     temp.y = temp.y + 50;
@@ -563,13 +590,29 @@
     [actionQueue addObject:action];
 }
 
+- (void)findMinItemSelection:(SelectionSort *)selectionSort item:(int)item{
+    
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+
+    SortAction *action = [[[SortAction alloc] init] autorelease];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y + 50;
+    action.firstLocation = temp;
+    //action.secondIndex = second;
+    //action.secondLocation = secondSprite.position;
+    action.arrow = redArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
+}
+
 
 - (void)exchangeItemsInsertion:(InsertionSort *)insertionSort first:(int)first second:(int)second{
     
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:first];
     CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
     
-    SortAction *action = [[SortAction alloc] init];
+    SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = first;
     action.firstLocation = firstSprite.position;
     action.secondIndex = second;
@@ -583,7 +626,7 @@
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
     //CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
     
-    SortAction *action = [[SortAction alloc] init];
+    SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = item;
     CGPoint temp = firstSprite.position;
     temp.y = temp.y - 50;
@@ -598,7 +641,7 @@
 - (void)findMinItemInsertion:(InsertionSort *)insertionSort item:(int)item{
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
     
-    SortAction *action = [[SortAction alloc] init];
+    SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = item;
     CGPoint temp = firstSprite.position;
     temp.y = temp.y + 50;

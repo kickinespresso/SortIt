@@ -28,11 +28,11 @@
 }
 
 - (void)run{
-    NSLog(@"Starting Insertion Sort");
-    NSLog(@"Before %@",[elements description]);
+    //NSLog(@"Starting Insertion Sort");
+    //NSLog(@"Before %@",[elements description]);
     //mergeSort(elements);
     [self insertionSort:elements];
-    NSLog(@"After: %@",[elements description]);
+    //NSLog(@"After: %@",[elements description]);
 }
 
 //void insertionSort(int a[], int array_size)

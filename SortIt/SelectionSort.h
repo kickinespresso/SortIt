@@ -30,6 +30,7 @@
 
 - (void)exchangeItemsSelection:(SelectionSort *)selectionSort first:(int)first second:(int)second;
 - (void)currentItemSelection:(SelectionSort *)selectionSort item:(int)item;
+- (void)compareItemSelection:(SelectionSort *)selectionSort item:(int)item;
 - (void)findMinItemSelection:(SelectionSort *)selectionSort item:(int)item;
 
 @end

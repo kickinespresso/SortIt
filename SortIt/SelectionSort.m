@@ -28,11 +28,11 @@
 }
 
 - (void)run{
-    NSLog(@"Starting Selection Sort");
-    NSLog(@"Before %@",[elements description]);
+    //NSLog(@"Starting Selection Sort");
+    //NSLog(@"Before %@",[elements description]);
     //mergeSort(elements);
     [self selectionSort:elements];
-    NSLog(@"After: %@",[elements description]);
+    //NSLog(@"After: %@",[elements description]);
 }
 
 
@@ -49,8 +49,9 @@
         {
             //if (a[j] < a[min])
                 //min = j;
-            [self.delegate findMinItemSelection:self item:j];
+            [self.delegate compareItemSelection:self item:j];
             if([[array objectAtIndex:j] intValue] < [[array objectAtIndex:min] intValue]){
+                [self.delegate findMinItemSelection:self item:j];
                 min = j;
             }
         }

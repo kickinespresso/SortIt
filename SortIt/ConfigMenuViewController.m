@@ -21,6 +21,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
+        sortingSpeed = 1;
     }
     return self;
 }
@@ -40,7 +42,7 @@
 
 - (IBAction)done:(id)sender{
 
-    //self.delegate setSpeed:self speed:<#(float)#>
+    [self.delegate setSpeed:self speed:sortingSpeed];
     
     //Hide the ConfigMenuViewController
     [CocoaHelper hideUIViewController];
@@ -50,10 +52,16 @@
 - (IBAction)sortingSpeedChanged:(id)sender{
     switch (self.sortingSpeedSeg.selectedSegmentIndex) {
         case 0:
-            //self.sortingSpeedSeg.text =@"Segment 1 selected.";
+            sortingSpeed = 1.0;
             break;
         case 1:
-            //self.sortingSpeedSeg.text =@"Segment 2 selected.";
+            sortingSpeed = 0.5;
+            break;
+        case 2:
+            sortingSpeed = 0.25;
+            break;
+        case 3:
+            sortingSpeed = 0.10;
             break;
         default:
             break;

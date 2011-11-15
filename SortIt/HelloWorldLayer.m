@@ -12,6 +12,8 @@
 #import "HeapSort.h"
 #import "MergeSort.h"
 #import "SortAction.h"
+#import "ConfigMenuViewController.h"
+#import "CocoaHelper.h"
 
 
 // HelloWorldLayer implementation
@@ -26,6 +28,8 @@
 @synthesize spriteElements;
 @synthesize elements;
 @synthesize actionQueue;
+
+@synthesize configMenuViewController;
 
 +(CCScene *) scene
 {
@@ -117,7 +121,22 @@
         doneMenu.visible = FALSE;
         doneMenu.position=ccp(size.width * .1 ,size.height *.1);
         
+        CCLabelTTF *optionsLabel = [CCLabelTTF labelWithString:@"Options" fontName:@"Marker Felt" fontSize:titleFontSize];
+        CCMenuItemFont *optionsButton = [CCMenuItemLabel itemWithLabel:optionsLabel target:self selector:@selector(optionsButton:)];
+        
+        CCMenu* optionsMenu = [CCMenu menuWithItems:optionsButton, nil];
+        [self addChild:optionsMenu];
 
+        optionsMenu.position=ccp(size.width * .9 ,size.height *.1);
+        
+        // --- Game Management Config Menu --- // Modal View Controll
+        // allocate for later display
+        configMenuViewController = [[ConfigMenuViewController alloc] initWithNibName:@"ConfigMenuViewController" bundle:nil];
+        
+        //Set delegate as self for the delegate protocol
+        configMenuViewController.delegate = self;
+
+        
 	}
     
 	return self;
@@ -166,6 +185,19 @@
     menu.visible = TRUE;
     
 }
+
+- (void)optionsButton:(id)sender{
+
+    [CocoaHelper showUIViewController:configMenuViewController];
+    
+}
+
+//Config Menu Delegate
+- (void)setSpeed:(ConfigMenuViewController *)setSpeed speed:(float)speed{
+    gameSpeed  = speed;
+}
+
+
 
 
 - (void)startHeapSort:(id)sender{
@@ -591,7 +623,7 @@
         //Is it an arrow?
         if (action.arrow != nil) {
             CCSprite* arrow = action.arrow;
-            CCMoveTo* firstAction = [CCMoveTo actionWithDuration:1 position:action.firstLocation];
+            CCMoveTo* firstAction = [CCMoveTo actionWithDuration:(1*gameSpeed) position:action.firstLocation];
             [arrow runAction:[CCSequence actions: delay, firstAction, nil]];
             
         }else {
@@ -615,8 +647,8 @@
             bezierSecond.controlPoint_2 = ccp(abs(p1.x + p2.x)/2, p1.y + jumpHeight);
             bezierSecond.endPosition =action.firstLocation;
             
-            CCBezierTo* firstAction = [CCBezierTo actionWithDuration:1 bezier:bezierFirst];
-            CCBezierTo* secondAction = [CCBezierTo actionWithDuration:1 bezier:bezierSecond];
+            CCBezierTo* firstAction = [CCBezierTo actionWithDuration:(1*gameSpeed) bezier:bezierFirst];
+            CCBezierTo* secondAction = [CCBezierTo actionWithDuration:(1*gameSpeed) bezier:bezierSecond];
             
             /*
              [firstSprite runAction:[CCMoveTo actionWithDuration:1 position:action.secondLocation]];
@@ -634,10 +666,6 @@
         
     }
     
-}
-
-- (void)setSpeed:(ConfigMenuViewController *)setSpeed speed:(float)speed{
-    gameSpeed = speed;
 }
 
 - (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber {

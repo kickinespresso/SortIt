@@ -42,6 +42,8 @@
     CCMenu *menu;
     CCMenu *doneMenu;
     
+    ConfigMenuViewController *configMenuViewController;
+    
 }
 
 @property (nonatomic, retain) HeapSort* heapSort;
@@ -54,9 +56,13 @@
 @property (nonatomic, retain) NSMutableArray* elements;
 @property (nonatomic, retain) NSMutableArray* actionQueue;
 
+@property (nonatomic, retain) ConfigMenuViewController *configMenuViewController;
+
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
 - (void)start:(id)sender;
+- (void)doneButton:(id)sender;
+- (void)optionsButton:(id)sender;
 - (void)createElements;
 - (void)startHeapSort:(id)sender;
 - (void)startInsertionSort:(id)sender;

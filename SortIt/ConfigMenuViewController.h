@@ -19,6 +19,8 @@
     
     IBOutlet UISegmentedControl *sortingSpeedSeg;
     
+    float sortingSpeed;
+    
 }
 @property (retain) id delegate;
 @property (nonatomic, retain) IBOutlet UILabel *appNameLabel;

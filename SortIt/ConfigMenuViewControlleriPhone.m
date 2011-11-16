@@ -16,6 +16,10 @@
 @synthesize versionLabel;
 @synthesize sortingSpeedSeg;
 
+@synthesize adBannerView;
+@synthesize adBannerViewIsVisible;
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -29,6 +33,8 @@
 
 - (void)dealloc
 {
+    adBannerView.delegate=nil;
+    [adBannerView release];
     [super dealloc];
 }
 
@@ -74,8 +80,19 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.appNameLabel.text = [[[NSBundle mainBundle] infoDictionary]   objectForKey:@"CFBundleName"];
+    self.appNameLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     self.versionLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    
+    if([[UIDevice currentDevice].systemVersion floatValue] >= 4.0){
+        //Show ad's 
+        adBannerView = [[ADBannerView alloc] initWithFrame:CGRectZero];
+        adBannerView.delegate=self;
+        
+        self.adBannerViewIsVisible=NO;
+    }else{
+        //No Add
+    }
+    
 }
 
 - (void)viewDidUnload
@@ -89,6 +106,44 @@
 {
     //All others NO
 	return NO;
+}
+
+#pragma mark - iAD Actions and functions
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    if (!self.adBannerViewIsVisible)
+    {
+        [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
+        // banner is invisible now and moved out of the screen on 50 px
+        banner.frame = CGRectOffset(banner.frame, 0, 50);
+        [UIView commitAnimations];
+        self.adBannerViewIsVisible = YES;
+    }
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    if (self.adBannerViewIsVisible)
+    {
+        [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
+        // banner is visible and we move it out of the screen, due to connection issue
+        banner.frame = CGRectOffset(banner.frame, 0, -50);
+        [UIView commitAnimations];
+        self.adBannerViewIsVisible = NO;
+    }
+}
+
+#pragma mark - Helper functions
+- (int)getBannerHeight:(UIDeviceOrientation)orientation {
+    if (UIInterfaceOrientationIsLandscape(orientation)) {
+        return 32;
+    } else {
+        return 50;
+    }
+}
+
+- (int)getBannerHeight {
+    return [self getBannerHeight:[UIDevice currentDevice].orientation];
 }
 
 @end

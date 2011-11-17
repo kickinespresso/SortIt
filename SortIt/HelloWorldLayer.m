@@ -15,7 +15,9 @@
 #import "ConfigMenuViewController.h"
 #import "CocoaHelper.h"
 #import "FlurryAnalytics.h"
-
+#import "AdWhirlView.h"
+#import "AppDelegate.h"
+#import "ARRollerView.h"
 
 // HelloWorldLayer implementation
 @implementation HelloWorldLayer
@@ -32,6 +34,8 @@
 
 @synthesize configMenuViewController;
 @synthesize configMenuViewControlleriPhone;
+
+@synthesize adView;
 
 +(CCScene *) scene
 {
@@ -121,7 +125,7 @@
         doneMenu = [CCMenu menuWithItems:doneButton, nil];
         [self addChild:doneMenu];
         doneMenu.visible = FALSE;
-        doneMenu.position=ccp(size.width * .1 ,size.height *.1);
+        doneMenu.position=ccp(size.width * .1 ,size.height *.2);
         
         CCLabelTTF *optionsLabel = [CCLabelTTF labelWithString:@"Options" fontName:@"Marker Felt" fontSize:titleFontSize];
         CCMenuItemFont *optionsButton = [CCMenuItemLabel itemWithLabel:optionsLabel target:self selector:@selector(optionsButton:)];
@@ -129,8 +133,9 @@
         CCMenu* optionsMenu = [CCMenu menuWithItems:optionsButton, nil];
         [self addChild:optionsMenu];
 
-        optionsMenu.position=ccp(size.width * .9 ,size.height *.1);
+        optionsMenu.position=ccp(size.width * .9 ,size.height *.2);
         
+        /*
         if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
             //Phone is detected//
             configMenuViewControlleriPhone = [[ConfigMenuViewControlleriPhone alloc] initWithNibName:@"ConfigMenuViewControlleriPhone" bundle:nil];
@@ -144,11 +149,17 @@
             //Set delegate as self for the delegate protocol
             configMenuViewController.delegate = self;
         }
-        
-        
-       
-
-        
+        */
+        /*
+        ARRollerView *rollerView;
+        rollerView = [ARRollerView requestRollerViewWithDelegate:self];
+        //UIView *myView = [[Director sharedDirector] openGLView];
+        [adView addSubview:rollerView];
+        //[myView addSubview:rollerView];
+*/
+        /*AdWhirlView *awView = [AdWhirlView requestAdWhirlViewWithDelegate:self];
+        [[[CCDirector sharedDirector] openGLView] addSubview:awView];
+        */
 	}
     
 	return self;
@@ -195,20 +206,49 @@
 
     doneMenu.visible = FALSE;
     menu.visible = TRUE;
+    [self reorderChild:menu z:2];
+    
     
 }
 
 - (void)optionsButton:(id)sender{
 
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        
+        if(configMenuViewControlleriPhone != nil)
+        {
+            [configMenuViewControlleriPhone release];
+        }
+        
+        configMenuViewControlleriPhone = [[ConfigMenuViewControlleriPhone alloc] initWithNibName:@"ConfigMenuViewControlleriPhone" bundle:nil];
+        configMenuViewControlleriPhone.delegate = self;
         [CocoaHelper showUIViewController:configMenuViewControlleriPhone];
+
     }else{
+        
+        if(configMenuViewController != nil)
+        {
+            [configMenuViewController release];
+        }
+        //iPad is detected.
+        // --- Game Management Config Menu --- // Modal View Controll
+        // allocate for later display
+        configMenuViewController = [[ConfigMenuViewController alloc] initWithNibName:@"ConfigMenuViewController" bundle:nil];
+        
+        //Set delegate as self for the delegate protocol
+        configMenuViewController.delegate = self;
         [CocoaHelper showUIViewController:configMenuViewController];    
     }
     
     
 }
 
+- (void)dismissConfigMenuiPhone:(ConfigMenuViewControlleriPhone *)setSpeed{
+    [CocoaHelper hideUIViewController];
+}
+- (void)dismissConfigMenu:(ConfigMenuViewController *)setSpeed{
+    [CocoaHelper hideUIViewController];
+}
 //Config Menu Delegate
 - (void)setSpeed:(ConfigMenuViewController *)setSpeed speed:(float)speed{
     gameSpeed  = speed;
@@ -317,6 +357,9 @@
 }
 
 - (void)createElements{
+    
+    [Crittercism leaveBreadcrumb:@"Create Elements"];
+
     int num = 10;
     CGSize size = [[CCDirector sharedDirector] winSize];
     int spacing = size.width / num;
@@ -715,6 +758,163 @@
     float diff = bigNumber - smallNumber;
     return (((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * diff) + smallNumber;
 }
+
+
+
+
+- (void)adWhirlWillPresentFullScreenModal {
+    //It's recommended to invoke whatever you're using as a "Pause Menu" so your
+    //game won't keep running while the user is "playing" with the Ad (for example, iAds)
+    //[self yourPauseMenu];
+}
+
+- (void)adWhirlDidDismissFullScreenModal {
+    //Once the user closes the Ad he'll want to return to the game and continue where
+    //he left it
+    //[self resumeGame];
+    
+}
+
+- (NSString *)adWhirlApplicationKey {
+    //Here you have to enter your AdWhirl SDK key
+	return @"54f9265fa1c24c8ebd47656d8ba22353";
+}
+
+- (NSString *)admobPublisherID
+{
+    return @"a14ec491234bc1d";
+}
+
+- (UIViewController *)viewControllerForPresentingModalView {
+    //Remember that UIViewController we created in the Game.h file? AdMob will use it.
+    //If you want to use "return self;" instead, AdMob will cancel the Ad requests.
+    return viewController;
+}
+
+-(void)adWhirlDidReceiveAd:(AdWhirlView *)adWhirlView {
+    
+    NSLog(@"Did Recieve Ad");
+    //This is a little trick I'm using... on my game I created a CCMenu with an image to promote
+    //my own paid game so this way I can guarantee that there will always be an Ad on-screen
+    //even if there's no internet connection... it's up to you if you want to implement this or not.
+	//For the purpose of this tutorial, it is implemented, if you don't want it just comment the line
+	//and remove all the personal Ad the methods.
+	//[self removeChild:adBannerMenu cleanup:YES];
+    //In case your game is in Landscape mode, set the interface orientation to that
+    //of your game (actually, UIInterfaceOrientationLandscapeLeft and UIInterfaceOrientationLandscapeRight
+    //will have the same effect on the ad... i.e. iAd). If your game is in Portrait mode, comment
+    //the following line
+    [self.adView rotateToOrientation:UIInterfaceOrientationLandscapeLeft];
+	//Different networks have different Ad sizes, we want our Ad to display in it's right size so
+	//we're invoking the method to resize the Ad
+	[self adjustAdSize];
+}
+
+// Resize the Ad
+-(void)adjustAdSize {
+    
+    CGSize screenSize = [[CCDirector sharedDirector] winSize];
+	[UIView beginAnimations:@"AdResize" context:nil];
+	[UIView setAnimationDuration:0.2];
+	// Get the actual Ad size
+	CGSize adSize = [adView actualAdSize];
+	// Create a new frame so we can assign the actual size
+	CGRect newFrame = adView.frame;
+	// Set the height
+	newFrame.size.height = adSize.height;
+	// Set the width
+	// In theory you could use the Ad's actual size but as most of them are smaller than
+	// the screen size (480 in landscape mode), they will be positioned to the left. If
+	// you want to keep them on the left, replace "screenSize.width" with "adSize.width"
+	newFrame.size.width = screenSize.width;
+	// Position the frame
+	newFrame.origin.x = (self.adView.bounds.size.width - adSize.width)/2;
+    // Some Ads have different height and we want them to be positioned at the bottom
+    // of the screen so we set our frame's position to the screen height minus the
+    // Ad height
+	newFrame.origin.y = (screenSize.height - adSize.height);
+	// Assign the new frame to the current one
+	adView.frame = newFrame;
+	// Apply animations
+	[UIView commitAnimations];
+}
+
+
+-(void)adWhirlDidFailToReceiveAd:(AdWhirlView *)adWhirlView usingBackup:(BOOL)yesOrNo {
+    
+    NSLog(@"Failed to Show ad");
+    [FlurryAnalytics logEvent:@"AdWhirl Failed to Recieve Ad"];
+    //The code to show my own Ad banner again
+	//For our example, it will be this method
+	//You can do any kind of validation in here, for more info please check the AdWhirl documentation
+    //For this example we'll remove first the previous personal Ad to avoid having a lot of Ads on
+    //top of each other
+    if ([self getChildByTag:123321]) {
+        [self removeChildByTag:123321 cleanup:YES];
+       // [self showPersonalAd];
+    }
+}
+
+-(void)onEnter {
+  
+    CGSize screenSize = [[CCDirector sharedDirector] winSize];
+    //Let's allocate the viewController (it's the same RootViewController as declared
+    //in our AppDelegate; will be used for the Ads)
+    viewController = [(AppDelegate*)[[UIApplication sharedApplication] delegate] viewController];
+    //Assign the AdWhirl Delegate to our adView
+    self.adView = [AdWhirlView requestAdWhirlViewWithDelegate:self];
+    //Set auto-resizing mask
+    self.adView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
+    //This isn't really needed but also it makes no harm. It just retrieves the configuration
+    //from adwhirl.com so it knows what Ad networks to use
+    [adView updateAdWhirlConfig];
+	//Get the actual size for the requested Ad
+	CGSize adSize = [adView actualAdSize];
+    //
+    //Set the position; remember that we are using 4 values (in this order): X, Y, Width, Height
+    //You can comment this line if your game is in portrait mode and you want your Ad on the top
+    //if you want the Ad in other position (portrait or landscape), use the following code,
+	//for this example, the Ad will be positioned in the bottom+center of the screen
+	//(in landscape mode):
+	//Same explanation as the one in the method "adjustAdSize" for the Ad's width
+	self.adView.frame = CGRectMake((screenSize.width/2)-(adSize.width/2),screenSize.height-adSize.height,screenSize.width,adSize.height);
+    //
+    //NOTE:
+    //screenSize = [[CCDirector sharedDirector] winSize];
+    //adSize.height = the height of the requested Ad
+    //
+	//Trying to keep everything inside the Ad bounds
+	self.adView.clipsToBounds = YES;
+    //Adding the adView (used for our Ads) to our viewController
+    [viewController.view addSubview:adView];
+    //Bring our view to front
+    [viewController.view bringSubviewToFront:adView];
+    [super onEnter];
+}
+
+-(void)onExit {
+    //There's something weird about AdWhirl because setting the adView delegate
+    //to "nil" doesn't stops the Ad requests and also it doesn't remove the adView
+    //from superView; do the following to remove AdWhirl from your scene.
+    //
+    //If adView exists, remove everything
+    if (adView) {
+        //Remove adView from superView
+        [adView removeFromSuperview];
+        //Replace adView's view with "nil"
+        [adView replaceBannerViewWith:nil];
+        //Tell AdWhirl to stop requesting Ads
+        [adView ignoreNewAdRequests];
+        //Set adView delegate to "nil"
+        [adView setDelegate:nil];
+        //Release adView
+        [adView release];
+        //set adView to "nil"
+        adView = nil;
+    }
+	[super onExit];
+}
+
 
 // on "dealloc" you need to release all your retained objects
 - (void) dealloc

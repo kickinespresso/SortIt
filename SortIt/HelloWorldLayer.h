@@ -16,8 +16,11 @@
 #import "InsertionSort.h"
 #import "ConfigMenuViewController.h"
 #import "ConfigMenuViewControlleriPhone.h"
+
+#import "AdWhirlDelegateProtocol.h"
+#import "RootViewController.h"
 // HelloWorldLayer
-@interface HelloWorldLayer  : CCLayer <HeapSortDelegate, MergeSortDelegate, BubbleSortDelegate, SelectionSortDelegate, InsertionSortDelegate, ConfigMenuViewControllerDelegate> {
+@interface HelloWorldLayer  : CCLayer <HeapSortDelegate, MergeSortDelegate, BubbleSortDelegate, SelectionSortDelegate, InsertionSortDelegate, ConfigMenuViewControllerDelegate, AdWhirlDelegate> {
     
     HeapSort* heapSort;
     MergeSort* mergeSort;
@@ -46,6 +49,10 @@
     ConfigMenuViewController *configMenuViewController;
     ConfigMenuViewControlleriPhone *configMenuViewControlleriPhone;
     
+    AdWhirlView *adView;
+	//This is a trick, AdMob uses a viewController to display its Ads, trust me, you'll need this
+	RootViewController *viewController;
+    
 }
 
 @property (nonatomic, retain) HeapSort* heapSort;
@@ -61,6 +68,8 @@
 @property (nonatomic, retain) ConfigMenuViewController *configMenuViewController;
 @property (nonatomic, retain) ConfigMenuViewControlleriPhone *configMenuViewControlleriPhone;
 
+@property(nonatomic,retain) AdWhirlView *adView;
+
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
 - (void)start:(id)sender;
@@ -75,5 +84,7 @@
 - (void)sort:(id)sender;
 
 - (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber;
+
+-(void)adjustAdSize;
 
 @end

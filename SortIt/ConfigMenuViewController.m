@@ -8,6 +8,8 @@
 
 #import "ConfigMenuViewController.h"
 #import "CocoaHelper.h"
+#import "FlurryAnalytics.h"
+#import "Crittercism.h"
 
 @implementation ConfigMenuViewController
 
@@ -16,9 +18,8 @@
 @synthesize versionLabel;
 @synthesize sortingSpeedSeg;
 
-@synthesize adBannerView;
-@synthesize adBannerViewIsVisible;
-
+//@synthesize adBannerView;
+//@synthesize adBannerViewIsVisible;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,8 +34,8 @@
 
 - (void)dealloc
 {
-    adBannerView.delegate=nil;
-    [adBannerView release];
+    //adBannerView.delegate=nil;
+    //[adBannerView release];
     [super dealloc];
 }
 
@@ -75,13 +76,37 @@
 
 }
 
+- (IBAction)crittercismPressed:(id)sender {
+   
+    [Crittercism showCrittercism];
+}
+
+-(IBAction) crashPressed:(id) sender {
+    [NSException raise:NSInvalidArgumentException
+                format:@"Foo must not be nil"];
+}
+
+
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view from its nib.
-    self.appNameLabel.text = [[[NSBundle mainBundle] infoDictionary]   objectForKey:@"CFBundleName"];
+    self.appNameLabel.text = @"Sorting"; //[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     self.versionLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    
+    /*
+    if([[UIDevice currentDevice].systemVersion floatValue] >= 4.0){
+        //Show ad's 
+        adBannerView = [[ADBannerView alloc] initWithFrame:CGRectZero];
+        adBannerView.delegate=self;
+        
+        self.adBannerViewIsVisible=NO;
+    }else{
+        //No Add
+    }*/
 }
 
 - (void)viewDidUnload
@@ -98,11 +123,24 @@
 }
 
 #pragma mark - iAD Actions and functions
+/*
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave{
+    
+
+    NSLog(@"Banner Should begin");
+    [self.delegate setSpeed:self speed:sortingSpeed];
+    
+    //Hide the ConfigMenuViewController
+    //[CocoaHelper hideUIViewController];
+    [self.delegate dismissConfigMenu:self];
+    
+    return TRUE;
+}
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-    if (!self.adBannerViewIsVisible)
-    {
+    if (!self.adBannerViewIsVisible){
+        
         [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
         // banner is invisible now and moved out of the screen on 50 px
         banner.frame = CGRectOffset(banner.frame, 0, 50);
@@ -113,6 +151,7 @@
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
+    [FlurryAnalytics logEvent:@"iAd Failed to Recieve Ad"];
     if (self.adBannerViewIsVisible)
     {
         [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
@@ -135,5 +174,5 @@
 - (int)getBannerHeight {
     return [self getBannerHeight:[UIDevice currentDevice].orientation];
 }
-
+*/
 @end

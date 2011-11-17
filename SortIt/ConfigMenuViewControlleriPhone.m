@@ -8,6 +8,7 @@
 
 #import "ConfigMenuViewControlleriPhone.h"
 #import "CocoaHelper.h"
+#import "Crittercism.h"
 
 @implementation ConfigMenuViewControlleriPhone
 
@@ -16,8 +17,8 @@
 @synthesize versionLabel;
 @synthesize sortingSpeedSeg;
 
-@synthesize adBannerView;
-@synthesize adBannerViewIsVisible;
+//@synthesize adBannerView;
+//@synthesize adBannerViewIsVisible;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -33,8 +34,8 @@
 
 - (void)dealloc
 {
-    adBannerView.delegate=nil;
-    [adBannerView release];
+    //adBannerView.delegate=nil;
+    //[adBannerView release];
     [super dealloc];
 }
 
@@ -75,14 +76,21 @@
     
 }
 
+
+- (IBAction)crittercismPressed:(id)sender {
+    
+    [Crittercism showCrittercism];
+}
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad{
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.appNameLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
+    self.appNameLabel.text = @"Sorting"; //[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     self.versionLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     
+    /*
     if([[UIDevice currentDevice].systemVersion floatValue] >= 4.0){
         //Show ad's 
         adBannerView = [[ADBannerView alloc] initWithFrame:CGRectZero];
@@ -91,7 +99,7 @@
         self.adBannerViewIsVisible=NO;
     }else{
         //No Add
-    }
+    }*/
     
 }
 
@@ -107,7 +115,7 @@
     //All others NO
 	return NO;
 }
-
+/*
 #pragma mark - iAD Actions and functions
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
@@ -145,5 +153,6 @@
 - (int)getBannerHeight {
     return [self getBannerHeight:[UIDevice currentDevice].orientation];
 }
+ */
 
 @end

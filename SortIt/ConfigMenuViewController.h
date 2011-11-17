@@ -8,12 +8,13 @@
 #import "cocos2d.h"
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import "iAd/ADBannerView.h"
+//#import "iAd/ADBannerView.h"
+//#import "iAd/iAd.h"
 
 @protocol ConfigMenuViewControllerDelegate;
-
+//<ADBannerViewDelegate>
 @interface ConfigMenuViewController : UIViewController {
-    id <ConfigMenuViewControllerDelegate, ADBannerViewDelegate> delegate;
+    id <ConfigMenuViewControllerDelegate > delegate;
     
     IBOutlet UILabel *appNameLabel;
     IBOutlet UILabel *versionLabel;
@@ -22,8 +23,8 @@
     
     float sortingSpeed;
     
-    ADBannerView *adBannerView;
-    BOOL adBannerViewIsVisible;
+    //ADBannerView *adBannerView;
+    //BOOL adBannerViewIsVisible;
     
 }
 @property (retain) id delegate;
@@ -31,15 +32,16 @@
 @property (nonatomic, retain) IBOutlet UILabel *versionLabel;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *sortingSpeedSeg;
 
-@property (nonatomic, retain) IBOutlet ADBannerView * adBannerView;
-@property (nonatomic) BOOL adBannerViewIsVisible;
+//@property (nonatomic, retain) IBOutlet ADBannerView * adBannerView;
+//@property (nonatomic) BOOL adBannerViewIsVisible;
 - (IBAction)done:(id)sender;
 - (IBAction)sortingSpeedChanged:(id)sender;
-
+- (IBAction)crittercismPressed:(id)sender;
 
 
 @end
 
 @protocol ConfigMenuViewControllerDelegate <NSObject>
 - (void)setSpeed:(ConfigMenuViewController *)setSpeed speed:(float)speed;
+- (void)dismissConfigMenu:(ConfigMenuViewController *)setSpeed;
 @end

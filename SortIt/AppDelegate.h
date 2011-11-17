@@ -7,14 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Crittercism.h"
 
 @class RootViewController;
 
-@interface AppDelegate : NSObject <UIApplicationDelegate> {
+@interface AppDelegate : NSObject <UIApplicationDelegate, CrittercismDelegate> {
 	UIWindow			*window;
 	RootViewController	*viewController;
 }
 
 @property (nonatomic, retain) UIWindow *window;
+@property (nonatomic, retain) RootViewController *viewController;
 
 @end

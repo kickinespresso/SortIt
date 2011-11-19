@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		230543791471DC2A00B3A1E2 /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 230543761471DC2A00B3A1E2 /* blueArrow.png */; };
 		2305437A1471DC2A00B3A1E2 /* greenArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 230543771471DC2A00B3A1E2 /* greenArrow.png */; };
+		2306F33914781D5400EBBAC2 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2306F33814781D5400EBBAC2 /* MessageUI.framework */; };
 		230D47DE147470A80055677F /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 230D47DD147470A80055677F /* iAd.framework */; };
 		2311B29C1471CE5F00500D9A /* icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 2311B29B1471CE5F00500D9A /* icon-Small-50.png */; };
 		231C66411472B58E00FEADCC /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 231C66401472B58E00FEADCC /* libFlurryAnalytics.a */; };
@@ -120,7 +121,6 @@
 		23D341761474D74100C2D55C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D341751474D74000C2D55C /* MapKit.framework */; };
 		23D341781474D76C00C2D55C /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D341771474D76C00C2D55C /* AddressBook.framework */; };
 		23D3417A1474D77800C2D55C /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D341791474D77800C2D55C /* MediaPlayer.framework */; };
-		23D3417C1474D78700C2D55C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D3417B1474D78700C2D55C /* MessageUI.framework */; };
 		23D3417E1474D79F00C2D55C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D3417D1474D79F00C2D55C /* SystemConfiguration.framework */; };
 		23D341801474D7B900C2D55C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D3417F1474D7B900C2D55C /* libz.dylib */; };
 		23D341821474D7C600C2D55C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D341811474D7C500C2D55C /* libsqlite3.dylib */; };
@@ -247,6 +247,7 @@
 /* Begin PBXFileReference section */
 		230543761471DC2A00B3A1E2 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
 		230543771471DC2A00B3A1E2 /* greenArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenArrow.png; sourceTree = "<group>"; };
+		2306F33814781D5400EBBAC2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		230D47DD147470A80055677F /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		2311B29B1471CE5F00500D9A /* icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-Small-50.png"; path = "../icon-Small-50.png"; sourceTree = "<group>"; };
 		231C663F1472B58E00FEADCC /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
@@ -406,7 +407,6 @@
 		23D341751474D74000C2D55C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		23D341771474D76C00C2D55C /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		23D341791474D77800C2D55C /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		23D3417B1474D78700C2D55C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		23D3417D1474D79F00C2D55C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		23D3417F1474D7B900C2D55C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		23D341811474D7C500C2D55C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -658,11 +658,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2306F33914781D5400EBBAC2 /* MessageUI.framework in Frameworks */,
 				23D341841474D8CF00C2D55C /* CoreLocation.framework in Frameworks */,
 				23D341821474D7C600C2D55C /* libsqlite3.dylib in Frameworks */,
 				23D341801474D7B900C2D55C /* libz.dylib in Frameworks */,
 				23D3417E1474D79F00C2D55C /* SystemConfiguration.framework in Frameworks */,
-				23D3417C1474D78700C2D55C /* MessageUI.framework in Frameworks */,
 				23D3417A1474D77800C2D55C /* MediaPlayer.framework in Frameworks */,
 				23D341781474D76C00C2D55C /* AddressBook.framework in Frameworks */,
 				23D341761474D74100C2D55C /* MapKit.framework in Frameworks */,
@@ -929,9 +929,9 @@
 			children = (
 				23D341831474D8CF00C2D55C /* CoreLocation.framework */,
 				23D341811474D7C500C2D55C /* libsqlite3.dylib */,
+				2306F33814781D5400EBBAC2 /* MessageUI.framework */,
 				23D3417F1474D7B900C2D55C /* libz.dylib */,
 				23D3417D1474D79F00C2D55C /* SystemConfiguration.framework */,
-				23D3417B1474D78700C2D55C /* MessageUI.framework */,
 				23D341791474D77800C2D55C /* MediaPlayer.framework */,
 				23D341771474D76C00C2D55C /* AddressBook.framework */,
 				23D341751474D74000C2D55C /* MapKit.framework */,
@@ -1544,7 +1544,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1555,7 +1556,9 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos5.0;
 			};
 			name = Debug;
@@ -1564,14 +1567,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -1580,14 +1586,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SortIt/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = SortIt/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/SortIt/FlurryAnalytics\"",
@@ -1618,7 +1624,7 @@
 				GCC_PREFIX_HEADER = SortIt/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = SortIt/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/SortIt/FlurryAnalytics\"",

@@ -14,19 +14,21 @@
 #import "BubbleSort.h"
 #import "SelectionSort.h"
 #import "InsertionSort.h"
+#import "QuickSort.h"
 #import "ConfigMenuViewController.h"
 #import "ConfigMenuViewControlleriPhone.h"
 
 #import "AdWhirlDelegateProtocol.h"
 #import "RootViewController.h"
 // HelloWorldLayer
-@interface HelloWorldLayer  : CCLayer <HeapSortDelegate, MergeSortDelegate, BubbleSortDelegate, SelectionSortDelegate, InsertionSortDelegate, ConfigMenuViewControllerDelegate, AdWhirlDelegate> {
+@interface HelloWorldLayer  : CCLayer <HeapSortDelegate, MergeSortDelegate, BubbleSortDelegate, SelectionSortDelegate, InsertionSortDelegate, QuickSortDelegate, ConfigMenuViewControllerDelegate, AdWhirlDelegate> {
     
     HeapSort* heapSort;
     MergeSort* mergeSort;
     BubbleSort* bubbleSort;
     SelectionSort* selectionSort;
     InsertionSort* insertionSort;
+    QuickSort*      quickSort;
     
     CCSprite*   greenArrow;
     CCSprite*   redArrow;
@@ -60,6 +62,7 @@
 @property (nonatomic, retain) BubbleSort* bubbleSort;
 @property (nonatomic, retain) SelectionSort* selectionSort;
 @property (nonatomic, retain) InsertionSort* insertionSort;
+@property (nonatomic, retain) QuickSort* quickSort;
 
 @property (nonatomic, retain) NSMutableArray* spriteElements;
 @property (nonatomic, retain) NSMutableArray* elements;
@@ -80,6 +83,7 @@
 - (void)startInsertionSort:(id)sender;
 - (void)startBubbleSort:(id)sender;
 - (void)startSelectionSort:(id)sender;
+- (void)startQuickSort:(id)sender;
 
 - (void)sort:(id)sender;
 

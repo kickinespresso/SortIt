@@ -14,6 +14,7 @@
 		2311B29C1471CE5F00500D9A /* icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 2311B29B1471CE5F00500D9A /* icon-Small-50.png */; };
 		231C66411472B58E00FEADCC /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 231C66401472B58E00FEADCC /* libFlurryAnalytics.a */; };
 		23620C801471CCCA00960C7E /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 23620C7F1471CCCA00960C7E /* icon-72.png */; };
+		23695B81148001B000318306 /* QuickSort.m in Sources */ = {isa = PBXBuildFile; fileRef = 23695B80148001B000318306 /* QuickSort.m */; };
 		2397A262146DFA3F00FABD16 /* InsertionSort.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397A261146DFA3F00FABD16 /* InsertionSort.m */; };
 		2397A266146DFA7600FABD16 /* MergeSort.m in Sources */ = {isa = PBXBuildFile; fileRef = 2397A265146DFA7600FABD16 /* MergeSort.m */; };
 		23A9D0B2147173C000F42D66 /* BubbleSort.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A9D0B1147173C000F42D66 /* BubbleSort.m */; };
@@ -253,6 +254,8 @@
 		231C663F1472B58E00FEADCC /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
 		231C66401472B58E00FEADCC /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
 		23620C7F1471CCCA00960C7E /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "../icon-72.png"; sourceTree = "<group>"; };
+		23695B7F148001B000318306 /* QuickSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuickSort.h; sourceTree = "<group>"; };
+		23695B80148001B000318306 /* QuickSort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuickSort.m; sourceTree = "<group>"; };
 		2397A260146DFA3F00FABD16 /* InsertionSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsertionSort.h; sourceTree = "<group>"; };
 		2397A261146DFA3F00FABD16 /* InsertionSort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsertionSort.m; sourceTree = "<group>"; };
 		2397A264146DFA7600FABD16 /* MergeSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MergeSort.h; sourceTree = "<group>"; };
@@ -687,6 +690,8 @@
 		230D47DF147470BD0055677F /* Sorts */ = {
 			isa = PBXGroup;
 			children = (
+				23D997361459FB78005D0DD2 /* SortAction.h */,
+				23D997371459FB78005D0DD2 /* SortAction.m */,
 				2397A264146DFA7600FABD16 /* MergeSort.h */,
 				2397A265146DFA7600FABD16 /* MergeSort.m */,
 				23A9D0B0147173C000F42D66 /* BubbleSort.h */,
@@ -697,6 +702,8 @@
 				2397A261146DFA3F00FABD16 /* InsertionSort.m */,
 				23D997331459A3B1005D0DD2 /* HeapSort.h */,
 				23D997341459A3B1005D0DD2 /* HeapSort.m */,
+				23695B7F148001B000318306 /* QuickSort.h */,
+				23695B80148001B000318306 /* QuickSort.m */,
 			);
 			name = Sorts;
 			sourceTree = "<group>";
@@ -976,8 +983,6 @@
 				23D9972B1459A2F7005D0DD2 /* HelloWorldLayer.m */,
 				23D9972D1459A2F7005D0DD2 /* GameConfig.h */,
 				230D47DF147470BD0055677F /* Sorts */,
-				23D997361459FB78005D0DD2 /* SortAction.h */,
-				23D997371459FB78005D0DD2 /* SortAction.m */,
 				23D995DA1459A2F6005D0DD2 /* Resources */,
 				23D995EE1459A2F6005D0DD2 /* cocos2d */,
 				23D996E01459A2F7005D0DD2 /* CocosDenshion */,
@@ -1268,6 +1273,7 @@
 				23D995C11459A2F6005D0DD2 /* Sources */,
 				23D995C21459A2F6005D0DD2 /* Frameworks */,
 				23D995C31459A2F6005D0DD2 /* Resources */,
+				23695B821480059400318306 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1402,6 +1408,22 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		23695B821480059400318306 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "#!/bin/bash\n# Auto Increment Version Script\nbuildPlist=\"SortIt/Resources/Info.plist\"\nbuildVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBuildVersion\" $buildPlist)\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBuildNumber\" $buildPlist)\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBuildNumber $buildNumber\" $buildPlist\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildVersion.$buildNumber\" $buildPlist\n#/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $buildVersion.$buildNumber\" $buildPlist";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		23D995C11459A2F6005D0DD2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1534,6 +1556,7 @@
 				23D341611474C6EA00C2D55C /* ARRollerView.m in Sources */,
 				23D341621474C6EA00C2D55C /* AWNetworkReachabilityWrapper.m in Sources */,
 				23D341631474C6EA00C2D55C /* UIColor+AdWhirlConfig.m in Sources */,
+				23695B81148001B000318306 /* QuickSort.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1586,7 +1609,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1603,6 +1627,7 @@
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = SortIt;
 				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;

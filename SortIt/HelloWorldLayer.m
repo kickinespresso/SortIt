@@ -19,6 +19,7 @@
 #import "AppDelegate.h"
 #import "ARRollerView.h"
 
+
 // HelloWorldLayer implementation
 @implementation HelloWorldLayer
 
@@ -27,6 +28,7 @@
 @synthesize bubbleSort;
 @synthesize selectionSort;
 @synthesize insertionSort;
+@synthesize quickSort;
 
 @synthesize spriteElements;
 @synthesize elements;
@@ -105,14 +107,16 @@
         CCLabelTTF *sort2 = [CCLabelTTF labelWithString:@"Bubble Sort" fontName:@"Marker Felt" fontSize:titleFontSize];
         CCLabelTTF *sort3 = [CCLabelTTF labelWithString:@"Selection Sort" fontName:@"Marker Felt" fontSize:titleFontSize];
         CCLabelTTF *sort4 = [CCLabelTTF labelWithString:@"Insertion Sort" fontName:@"Marker Felt" fontSize:titleFontSize];
+        CCLabelTTF *sort5 = [CCLabelTTF labelWithString:@"Quick Sort" fontName:@"Marker Felt" fontSize:titleFontSize];
         
         CCMenuItemFont *menuItem1 = [CCMenuItemLabel itemWithLabel:sort1 target:self selector:@selector(startHeapSort:) ];
         CCMenuItemFont *menuItem2 = [CCMenuItemLabel itemWithLabel:sort2 target:self selector:@selector(startBubbleSort:)];
         CCMenuItemFont *menuItem3 = [CCMenuItemLabel itemWithLabel:sort3 target:self selector:@selector(startSelectionSort:)];
         CCMenuItemFont *menuItem4 = [CCMenuItemLabel itemWithLabel:sort4 target:self selector:@selector(startInsertionSort:)];
+        CCMenuItemFont *menuItem5 = [CCMenuItemLabel itemWithLabel:sort5 target:self selector:@selector(startQuickSort:)];
     
         
-        menu = [CCMenu menuWithItems:menuItem1, menuItem2, menuItem3, menuItem4,nil];
+        menu = [CCMenu menuWithItems:menuItem1, menuItem2, menuItem3, menuItem4, menuItem5,nil];
         [menu alignItemsVertically];
         //menu.scale = 2;
         [self addChild:menu];
@@ -356,6 +360,28 @@
     
 }
 
+- (void)startQuickSort:(id)sender{
+    if(actionQueue != nil){
+        [actionQueue release];
+    }
+    actionQueue = [[NSMutableArray alloc] init];
+    
+    menu.visible = FALSE;
+    doneMenu.visible = TRUE;
+    
+    [self createElements];
+    
+    quickSort = [[QuickSort alloc] initWithArray:elements];
+    quickSort.delegate = self;
+    [quickSort run];
+    
+    [quickSort release];
+    
+    [self sort:self];
+    
+    [FlurryAnalytics logEvent:@"Quick Sort"];
+}
+
 - (void)createElements{
     
     [Crittercism leaveBreadcrumb:@"Create Elements"];
@@ -556,15 +582,12 @@
 - (void)currentItemBubble:(BubbleSort *)BubbleSort item:(int)item{
     
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
-    //CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
     
     SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = item;
     CGPoint temp = firstSprite.position;
     temp.y = temp.y - 50;
     action.firstLocation = temp;
-    //action.secondIndex = second;
-    //action.secondLocation = secondSprite.position;
     action.arrow = greenArrow;
     action.isArrow = TRUE;
     [actionQueue addObject:action];
@@ -577,8 +600,6 @@
     CGPoint temp = firstSprite.position;
     temp.y = temp.y + 50;
     action.firstLocation = temp;
-    //action.secondIndex = second;
-    //action.secondLocation = secondSprite.position;
     action.arrow = blueArrow;
     action.isArrow = TRUE;
     [actionQueue addObject:action];
@@ -603,15 +624,12 @@
 - (void)currentItemSelection:(SelectionSort *)selectionSort item:(int)item{
     
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
-    //CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
     
     SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = item;
     CGPoint temp = firstSprite.position;
     temp.y = temp.y - 50;
     action.firstLocation = temp;
-    //action.secondIndex = second;
-    //action.secondLocation = secondSprite.position;
     action.arrow = greenArrow;
     action.isArrow = TRUE;
     [actionQueue addObject:action];
@@ -626,8 +644,6 @@
     CGPoint temp = firstSprite.position;
     temp.y = temp.y + 50;
     action.firstLocation = temp;
-    //action.secondIndex = second;
-    //action.secondLocation = secondSprite.position;
     action.arrow = blueArrow;
     action.isArrow = TRUE;
     [actionQueue addObject:action];
@@ -642,8 +658,6 @@
     CGPoint temp = firstSprite.position;
     temp.y = temp.y + 50;
     action.firstLocation = temp;
-    //action.secondIndex = second;
-    //action.secondLocation = secondSprite.position;
     action.arrow = redArrow;
     action.isArrow = TRUE;
     [actionQueue addObject:action];
@@ -667,15 +681,12 @@
 
 - (void)currentItemInsertion:(InsertionSort *)insertionSort item:(int)item{
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
-    //CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
     
     SortAction *action = [[[SortAction alloc] init] autorelease];
     action.firstIndex = item;
     CGPoint temp = firstSprite.position;
     temp.y = temp.y - 50;
     action.firstLocation = temp;
-    //action.secondIndex = second;
-    //action.secondLocation = secondSprite.position;
     action.arrow = greenArrow;
     action.isArrow = TRUE;
     [actionQueue addObject:action];
@@ -689,9 +700,63 @@
     CGPoint temp = firstSprite.position;
     temp.y = temp.y + 50;
     action.firstLocation = temp;
-    //action.secondIndex = second;
-    //action.secondLocation = secondSprite.position;
     action.arrow = blueArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
+}
+
+#pragma mark - QuickSortDelegate
+- (void)exchangeItemsQuick:(QuickSort *)quickSort first:(int)first second:(int)second{
+    
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:first];
+    CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
+    
+    SortAction *action = [[[SortAction alloc] init] autorelease];
+    action.firstIndex = first;
+    action.firstLocation = firstSprite.position;
+    action.secondIndex = second;
+    action.secondLocation = secondSprite.position;
+    action.isArrow = FALSE;
+    [actionQueue addObject:action];
+}
+
+- (void)currentItemQuick:(QuickSort *)quickSort item:(int)item{
+    
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+    
+    SortAction *action = [[[SortAction alloc] init] autorelease];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y - 50;
+    action.firstLocation = temp;
+    action.arrow = greenArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
+}
+
+- (void)compareItemQuick:(QuickSort *)quickSort item:(int)item{
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+    
+    SortAction *action = [[[SortAction alloc] init] autorelease];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y + 50;
+    action.firstLocation = temp;
+    action.arrow = blueArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
+}
+
+- (void)pivotItemQuick:(QuickSort *)quickSort item:(int)item{
+    
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+    
+    SortAction *action = [[[SortAction alloc] init] autorelease];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y + 50;
+    action.firstLocation = temp;
+    action.arrow = redArrow;
     action.isArrow = TRUE;
     [actionQueue addObject:action];
 }

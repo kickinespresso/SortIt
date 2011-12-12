@@ -31,9 +31,9 @@
 
 - (void)run{
     //NSLog(@"Starting Quick Sort");
-    NSLog(@"Before %@",[elements description]);
+    //NSLog(@"Before %@",[elements description]);
     [self quickSort:elements left:0 right:([elements count] -1)];
-    NSLog(@"After: %@",[elements description]);
+    //NSLog(@"After: %@",[elements description]);
 }
 
 
@@ -45,6 +45,7 @@
     [self.delegate pivotItemQuick:self item:((left + right) /2)];
     /* partition */
     while (i <= j) {
+        [self.delegate compareItemQuick:self item:i];
         while ([[array objectAtIndex:i] intValue] < pivot){
             [self.delegate currentItemQuick:self item:i];
             i++;
@@ -59,6 +60,7 @@
             //tmp = arr[i];
             //arr[i] = arr[j];
             //arr[j] = tmp;
+
             [self.delegate exchangeItemsQuick:self first:i second:j];
             [array exchangeObjectAtIndex:i withObjectAtIndex:j];
             i++;

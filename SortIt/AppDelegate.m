@@ -104,8 +104,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 #endif
 	
 	[director setAnimationInterval:1.0/60];
-	[director setDisplayFPS:YES];
-	
+	//[director setDisplayFPS:YES];
+	[director setDisplayFPS:NO];
 	
 	// make the OpenGLView a child of the view controller
 	[viewController setView:glView];
@@ -127,7 +127,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	// Run the intro Scene
 	[[CCDirector sharedDirector] runWithScene: [HelloWorldLayer scene]];
     
-    [Crittercism initWithAppID: @"4ec562493f5b313baf0001c2"
+    [Crittercism initWithAppID:@"4ec562493f5b313baf0001c2"
                         andKey:@"4ec562493f5b313baf0001c2iylccbqi"
                      andSecret:@"ey8zvcki7ugmxsbs0d3knnamtfy2hpwl"
          andMainViewController:viewController];
@@ -180,14 +180,13 @@ void uncaughtExceptionHandler(NSException *exception) {
 -(void)crittercismDidCrashOnLastLoad {
     
     NSLog(@"App crashed the last time it was loaded");
-    
     [FlurryAnalytics logEvent:@"Crittercism: App crashed the last time it was loaded"];
+    
 }
 
 -(void)crittercismDidClose{
     //Do Nothing
 }
-
 
 - (void)dealloc {
 	[[CCDirector sharedDirector] end];

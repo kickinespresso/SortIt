@@ -116,7 +116,7 @@
         CCMenuItemFont *menuItem5 = [CCMenuItemLabel itemWithLabel:sort5 target:self selector:@selector(startQuickSort:)];
     
         
-        menu = [CCMenu menuWithItems:menuItem1, menuItem2, menuItem3, menuItem4, menuItem5,nil];
+        menu = [CCMenu menuWithItems:menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, nil];
         [menu alignItemsVertically];
         //menu.scale = 2;
         [self addChild:menu];
@@ -858,7 +858,7 @@
 
 -(void)adWhirlDidReceiveAd:(AdWhirlView *)adWhirlView {
     
-    NSLog(@"Did Recieve Ad");
+    //NSLog(@"Did Recieve Ad");
     //This is a little trick I'm using... on my game I created a CCMenu with an image to promote
     //my own paid game so this way I can guarantee that there will always be an Ad on-screen
     //even if there's no internet connection... it's up to you if you want to implement this or not.
@@ -907,7 +907,7 @@
 
 -(void)adWhirlDidFailToReceiveAd:(AdWhirlView *)adWhirlView usingBackup:(BOOL)yesOrNo {
     
-    NSLog(@"Failed to Show ad");
+    //NSLog(@"Failed to Show ad");
     [FlurryAnalytics logEvent:@"AdWhirl Failed to Recieve Ad"];
     //The code to show my own Ad banner again
 	//For our example, it will be this method

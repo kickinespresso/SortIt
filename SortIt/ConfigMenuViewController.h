@@ -8,11 +8,11 @@
 #import "cocos2d.h"
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import "IAPManagerViewController.h"
+
 
 @protocol ConfigMenuViewControllerDelegate;
 
-@interface ConfigMenuViewController : UIViewController <IAPManagerDelegate>{
+@interface ConfigMenuViewController : UIViewController {
     id <ConfigMenuViewControllerDelegate > delegate;
     
     IBOutlet UILabel *appNameLabel;
@@ -32,7 +32,6 @@
 - (IBAction)done:(id)sender;
 - (IBAction)sortingSpeedChanged:(id)sender;
 - (IBAction)crittercismPressed:(id)sender;
-- (IBAction)inAppPurchaseButton:(id)sender;
 
 @end
 

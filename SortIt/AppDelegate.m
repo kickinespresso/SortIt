@@ -14,7 +14,6 @@
 #import "RootViewController.h"
 #import "FlurryAnalytics.h"
 #import "Crittercism.h"
-#import "InAppRageIAPHelper.h"
 
 //JNDBX72ADY2XNGWM1AT3
 @implementation AppDelegate
@@ -53,9 +52,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     //Setup Flurry
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
 
-    
-    // Override point for customization after application launch.
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:[InAppRageIAPHelper sharedHelper]];
     
     
 	// Init the window

@@ -17,14 +17,11 @@
 #import "QuickSort.h"
 #import "ConfigMenuViewController.h"
 #import "ConfigMenuViewControlleriPhone.h"
-
-#import "AdWhirlDelegateProtocol.h"
 #import "RootViewController.h"
 
-#import "IAPManagerViewController.h"
 
 // HelloWorldLayer
-@interface HelloWorldLayer  : CCLayer <HeapSortDelegate, MergeSortDelegate, BubbleSortDelegate, SelectionSortDelegate, InsertionSortDelegate, QuickSortDelegate, ConfigMenuViewControllerDelegate, AdWhirlDelegate, IAPManagerDelegate> {
+@interface HelloWorldLayer  : CCLayer <HeapSortDelegate, MergeSortDelegate, BubbleSortDelegate, SelectionSortDelegate, InsertionSortDelegate, QuickSortDelegate, ConfigMenuViewControllerDelegate> {
     
     HeapSort* heapSort;
     MergeSort* mergeSort;
@@ -53,9 +50,7 @@
     
     //ConfigMenuViewController *configMenuViewController;
     //ConfigMenuViewControlleriPhone *configMenuViewControlleriPhone;
-    
-    AdWhirlView *adView;
-	//This is a trick, AdMob uses a viewController to display its Ads, trust me, you'll need this
+    //This is a trick, AdMob uses a viewController to display its Ads, trust me, you'll need this
 	RootViewController *viewController;
     
 }
@@ -71,17 +66,11 @@
 @property (nonatomic, retain) NSMutableArray* elements;
 @property (nonatomic, retain) NSMutableArray* actionQueue;
 
-//@property (nonatomic, retain) ConfigMenuViewController *configMenuViewController;
-//@property (nonatomic, retain) ConfigMenuViewControlleriPhone *configMenuViewControlleriPhone;
-
-@property(nonatomic,retain) AdWhirlView *adView;
-
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
 - (void)start:(id)sender;
 - (void)doneButton:(id)sender;
 - (void)optionsButton:(id)sender;
-- (void)inAppPurchaseButton:(id)sender;
 - (void)createElements;
 - (void)startHeapSort:(id)sender;
 - (void)startInsertionSort:(id)sender;
@@ -93,6 +82,5 @@
 
 - (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber;
 
--(void)adjustAdSize;
 
 @end

@@ -11,9 +11,6 @@
 #import "FlurryAnalytics.h"
 #import "Crittercism.h"
 
-
-#import "IAPManagerViewController.h"
-
 @implementation ConfigMenuViewController
 
 @synthesize delegate;
@@ -111,37 +108,6 @@
 {
     //All others NO
 	return NO;
-}
-
-- (IBAction)inAppPurchaseButton:(id)sender{
-    
-    //IAPManagerViewController* purchaseManager;    
-    /*
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-        purchaseManager = [[IAPManagerViewController alloc] initWithNibName:@"IAPManagerViewControlleriPhone" bundle:nil];
-        
-    }else{
-        purchaseManager = [[IAPManagerViewController alloc] initWithNibName:@"IAPManagerViewControlleriPad" bundle:nil];
-        
-    }*/
-    
-    IAPManagerViewController* purchaseManager = [[IAPManagerViewController alloc] init];
-    purchaseManager.delegate = self;
-    
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:purchaseManager];
-    //navController.view.frame = CGRectMake(0, 0 , 1024, 768);
-    
-    //[CocoaHelper showUIViewController:navController];
-    [self presentModalViewController:navController animated:YES];
-    
-    [purchaseManager release];
-    [navController release];
-}
-
-- (void)doneInAppPurchases:(IAPManagerViewController *)doneInAppPurchases{
-    
-    //[CocoaHelper hideUIViewController];
-    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end

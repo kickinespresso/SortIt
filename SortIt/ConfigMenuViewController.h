@@ -8,23 +8,20 @@
 #import "cocos2d.h"
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-//#import "iAd/ADBannerView.h"
-//#import "iAd/iAd.h"
+#import "IAPManagerViewController.h"
 
 @protocol ConfigMenuViewControllerDelegate;
-//<ADBannerViewDelegate>
-@interface ConfigMenuViewController : UIViewController {
+
+@interface ConfigMenuViewController : UIViewController <IAPManagerDelegate>{
     id <ConfigMenuViewControllerDelegate > delegate;
     
     IBOutlet UILabel *appNameLabel;
     IBOutlet UILabel *versionLabel;
-    
     IBOutlet UISegmentedControl *sortingSpeedSeg;
     
     float sortingSpeed;
     
-    //ADBannerView *adBannerView;
-    //BOOL adBannerViewIsVisible;
+
     
 }
 @property (retain) id delegate;
@@ -32,12 +29,10 @@
 @property (nonatomic, retain) IBOutlet UILabel *versionLabel;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *sortingSpeedSeg;
 
-//@property (nonatomic, retain) IBOutlet ADBannerView * adBannerView;
-//@property (nonatomic) BOOL adBannerViewIsVisible;
 - (IBAction)done:(id)sender;
 - (IBAction)sortingSpeedChanged:(id)sender;
 - (IBAction)crittercismPressed:(id)sender;
-
+- (IBAction)inAppPurchaseButton:(id)sender;
 
 @end
 

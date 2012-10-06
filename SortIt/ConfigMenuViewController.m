@@ -11,6 +11,9 @@
 #import "FlurryAnalytics.h"
 #import "Crittercism.h"
 
+
+#import "IAPManagerViewController.h"
+
 @implementation ConfigMenuViewController
 
 @synthesize delegate;
@@ -18,8 +21,7 @@
 @synthesize versionLabel;
 @synthesize sortingSpeedSeg;
 
-//@synthesize adBannerView;
-//@synthesize adBannerViewIsVisible;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,8 +36,7 @@
 
 - (void)dealloc
 {
-    //adBannerView.delegate=nil;
-    //[adBannerView release];
+
     [super dealloc];
 }
 
@@ -96,17 +97,7 @@
     // Do any additional setup after loading the view from its nib.
     self.appNameLabel.text = @"Sorting"; //[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     self.versionLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-    
-    /*
-    if([[UIDevice currentDevice].systemVersion floatValue] >= 4.0){
-        //Show ad's 
-        adBannerView = [[ADBannerView alloc] initWithFrame:CGRectZero];
-        adBannerView.delegate=self;
-        
-        self.adBannerViewIsVisible=NO;
-    }else{
-        //No Add
-    }*/
+
 }
 
 - (void)viewDidUnload
@@ -122,57 +113,35 @@
 	return NO;
 }
 
-#pragma mark - iAD Actions and functions
-/*
-- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave{
+- (IBAction)inAppPurchaseButton:(id)sender{
     
-
-    NSLog(@"Banner Should begin");
-    [self.delegate setSpeed:self speed:sortingSpeed];
-    
-    //Hide the ConfigMenuViewController
-    //[CocoaHelper hideUIViewController];
-    [self.delegate dismissConfigMenu:self];
-    
-    return TRUE;
-}
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
-{
-    if (!self.adBannerViewIsVisible){
+    //IAPManagerViewController* purchaseManager;    
+    /*
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        purchaseManager = [[IAPManagerViewController alloc] initWithNibName:@"IAPManagerViewControlleriPhone" bundle:nil];
         
-        [UIView beginAnimations:@"animateAdBannerOn" context:NULL];
-        // banner is invisible now and moved out of the screen on 50 px
-        banner.frame = CGRectOffset(banner.frame, 0, 50);
-        [UIView commitAnimations];
-        self.adBannerViewIsVisible = YES;
-    }
+    }else{
+        purchaseManager = [[IAPManagerViewController alloc] initWithNibName:@"IAPManagerViewControlleriPad" bundle:nil];
+        
+    }*/
+    
+    IAPManagerViewController* purchaseManager = [[IAPManagerViewController alloc] init];
+    purchaseManager.delegate = self;
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:purchaseManager];
+    //navController.view.frame = CGRectMake(0, 0 , 1024, 768);
+    
+    //[CocoaHelper showUIViewController:navController];
+    [self presentModalViewController:navController animated:YES];
+    
+    [purchaseManager release];
+    [navController release];
 }
 
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
-{
-    [FlurryAnalytics logEvent:@"iAd Failed to Recieve Ad"];
-    if (self.adBannerViewIsVisible)
-    {
-        [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
-        // banner is visible and we move it out of the screen, due to connection issue
-        banner.frame = CGRectOffset(banner.frame, 0, -50);
-        [UIView commitAnimations];
-        self.adBannerViewIsVisible = NO;
-    }
+- (void)doneInAppPurchases:(IAPManagerViewController *)doneInAppPurchases{
+    
+    //[CocoaHelper hideUIViewController];
+    [self dismissModalViewControllerAnimated:YES];
 }
 
-#pragma mark - Helper functions
-- (int)getBannerHeight:(UIDeviceOrientation)orientation {
-    if (UIInterfaceOrientationIsLandscape(orientation)) {
-        return 32;
-    } else {
-        return 50;
-    }
-}
-
-- (int)getBannerHeight {
-    return [self getBannerHeight:[UIDevice currentDevice].orientation];
-}
-*/
 @end

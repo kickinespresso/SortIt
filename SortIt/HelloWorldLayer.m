@@ -34,8 +34,6 @@
 @synthesize elements;
 @synthesize actionQueue;
 
-@synthesize configMenuViewController;
-@synthesize configMenuViewControlleriPhone;
 
 @synthesize adView;
 
@@ -108,15 +106,17 @@
         CCLabelTTF *sort3 = [CCLabelTTF labelWithString:@"Selection Sort" fontName:@"Marker Felt" fontSize:titleFontSize];
         CCLabelTTF *sort4 = [CCLabelTTF labelWithString:@"Insertion Sort" fontName:@"Marker Felt" fontSize:titleFontSize];
         CCLabelTTF *sort5 = [CCLabelTTF labelWithString:@"Quick Sort" fontName:@"Marker Felt" fontSize:titleFontSize];
+        CCLabelTTF *inAppPurchase = [CCLabelTTF labelWithString:@"In App Purchase" fontName:@"Marker Felt" fontSize:titleFontSize];
         
         CCMenuItemFont *menuItem1 = [CCMenuItemLabel itemWithLabel:sort1 target:self selector:@selector(startHeapSort:) ];
         CCMenuItemFont *menuItem2 = [CCMenuItemLabel itemWithLabel:sort2 target:self selector:@selector(startBubbleSort:)];
         CCMenuItemFont *menuItem3 = [CCMenuItemLabel itemWithLabel:sort3 target:self selector:@selector(startSelectionSort:)];
         CCMenuItemFont *menuItem4 = [CCMenuItemLabel itemWithLabel:sort4 target:self selector:@selector(startInsertionSort:)];
         CCMenuItemFont *menuItem5 = [CCMenuItemLabel itemWithLabel:sort5 target:self selector:@selector(startQuickSort:)];
+        CCMenuItemFont *menuItem6 = [CCMenuItemLabel itemWithLabel:inAppPurchase target:self selector:@selector(inAppPurchaseButton:)];
     
         
-        menu = [CCMenu menuWithItems:menuItem1, menuItem2, menuItem3, menuItem4, menuItem5, nil];
+        menu = [CCMenu menuWithItems:menuItem1, menuItem2, menuItem3, menuItem4, menuItem5,menuItem6, nil];
         [menu alignItemsVertically];
         //menu.scale = 2;
         [self addChild:menu];
@@ -139,31 +139,6 @@
 
         optionsMenu.position=ccp(size.width * .9 ,size.height *.2);
         
-        /*
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
-            //Phone is detected//
-            configMenuViewControlleriPhone = [[ConfigMenuViewControlleriPhone alloc] initWithNibName:@"ConfigMenuViewControlleriPhone" bundle:nil];
-            configMenuViewControlleriPhone.delegate = self;
-        }else {
-            //iPad is detected.
-            // --- Game Management Config Menu --- // Modal View Controll
-            // allocate for later display
-            configMenuViewController = [[ConfigMenuViewController alloc] initWithNibName:@"ConfigMenuViewController" bundle:nil];
-            
-            //Set delegate as self for the delegate protocol
-            configMenuViewController.delegate = self;
-        }
-        */
-        /*
-        ARRollerView *rollerView;
-        rollerView = [ARRollerView requestRollerViewWithDelegate:self];
-        //UIView *myView = [[Director sharedDirector] openGLView];
-        [adView addSubview:rollerView];
-        //[myView addSubview:rollerView];
-*/
-        /*AdWhirlView *awView = [AdWhirlView requestAdWhirlViewWithDelegate:self];
-        [[[CCDirector sharedDirector] openGLView] addSubview:awView];
-        */
 	}
     
 	return self;
@@ -177,31 +152,11 @@
     actionQueue = [[NSMutableArray alloc] init];
     
     [self createElements];
-    //[self startHeapSort];
-    
-    /*
-    bubbleSort = [[BubbleSort alloc] initWithArray:elements];
-    bubbleSort.delegate = self;
-    [bubbleSort run];
-    */
-    /*
-    selectionSort = [[SelectionSort alloc] initWithArray:elements];
-    selectionSort.delegate = self;
-    [selectionSort run];
-     */
     
     insertionSort = [[InsertionSort alloc] initWithArray:elements];
     insertionSort.delegate = self;
     [insertionSort run];
-    
-    /*
-    mergeSort = [[MergeSort alloc] initWithArray:elements];
-    mergeSort.delegate = self;
-    [mergeSort run];
-    */
-    
-    
-    //[heapSort run];
+
     
     [self sort:self];
 }
@@ -211,40 +166,34 @@
     doneMenu.visible = FALSE;
     menu.visible = TRUE;
     [self reorderChild:menu z:2];
-    
-    
 }
 
 - (void)optionsButton:(id)sender{
 
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
         
-        if(configMenuViewControlleriPhone != nil)
-        {
-            [configMenuViewControlleriPhone release];
-        }
-        
-        configMenuViewControlleriPhone = [[ConfigMenuViewControlleriPhone alloc] initWithNibName:@"ConfigMenuViewControlleriPhone" bundle:nil];
+        ConfigMenuViewControlleriPhone* configMenuViewControlleriPhone = [[ConfigMenuViewControlleriPhone alloc] initWithNibName:@"ConfigMenuViewControlleriPhone" bundle:nil];
         configMenuViewControlleriPhone.delegate = self;
-        [CocoaHelper showUIViewController:configMenuViewControlleriPhone];
-
-    }else{
         
-        if(configMenuViewController != nil)
-        {
-            [configMenuViewController release];
-        }
+        //UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:configMenuViewControlleriPhone];
+        
+        [CocoaHelper showUIViewController:configMenuViewControlleriPhone];
+        
+        [configMenuViewControlleriPhone release];
+        //[navController release];
+    }else{
+
         //iPad is detected.
-        // --- Game Management Config Menu --- // Modal View Controll
-        // allocate for later display
-        configMenuViewController = [[ConfigMenuViewController alloc] initWithNibName:@"ConfigMenuViewController" bundle:nil];
+        ConfigMenuViewController* configMenuViewController = [[ConfigMenuViewController alloc] initWithNibName:@"ConfigMenuViewController" bundle:nil];
         
         //Set delegate as self for the delegate protocol
         configMenuViewController.delegate = self;
-        [CocoaHelper showUIViewController:configMenuViewController];    
+        //UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:configMenuViewController];
+        [CocoaHelper showUIViewController:configMenuViewController];  
+        [configMenuViewController release];
+        //[navController release];
     }
-    
-    
+
 }
 
 - (void)dismissConfigMenuiPhone:(ConfigMenuViewControlleriPhone *)setSpeed{
@@ -263,7 +212,32 @@
 }
 
 
+- (void)inAppPurchaseButton:(id)sender{
+    
+    IAPManagerViewController* purchaseManager;    
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone){
+        purchaseManager = [[IAPManagerViewController alloc] initWithNibName:@"IAPManagerViewControlleriPhone" bundle:nil];
 
+    }else{
+        purchaseManager = [[IAPManagerViewController alloc] initWithNibName:@"IAPManagerViewControlleriPad" bundle:nil];
+
+    }
+    purchaseManager.delegate = self;
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:purchaseManager];
+    navController.view.frame = CGRectMake(0, 0 , 1024, 768);
+
+    [CocoaHelper showUIViewController:navController];
+
+    [purchaseManager release];
+    [navController release];
+}
+
+- (void)doneInAppPurchases:(IAPManagerViewController *)doneInAppPurchases{
+
+    [CocoaHelper hideUIViewController];
+}
 
 - (void)startHeapSort:(id)sender{
     
@@ -440,8 +414,7 @@
         //label.position = ccp( ((spacing)*(i))+(spacing/2) , size.height/2 );
         //[label runAction:moveSprite];
         [spriteElements addObject: label];
-        
-        
+
         
     }
    

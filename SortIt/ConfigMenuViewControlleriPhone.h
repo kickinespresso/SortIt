@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-//#import "iAd/ADBannerView.h"
 
 @protocol ConfigMenuViewControllerDelegateiPhone;
-///<ADBannerViewDelegate>
+
 @interface ConfigMenuViewControlleriPhone : UIViewController {
     id <ConfigMenuViewControllerDelegateiPhone> delegate;
     
@@ -22,8 +21,7 @@
     
     float sortingSpeed;
     
-    //ADBannerView *adBannerView;
-    //BOOL adBannerViewIsVisible;
+
     
 }
 
@@ -31,8 +29,6 @@
 @property (nonatomic, retain) IBOutlet UILabel *appNameLabel;
 @property (nonatomic, retain) IBOutlet UILabel *versionLabel;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *sortingSpeedSeg;
-//@property (nonatomic, retain) IBOutlet ADBannerView * adBannerView;
-//@property (nonatomic) BOOL adBannerViewIsVisible;
 
 - (IBAction)done:(id)sender;
 - (IBAction)sortingSpeedChanged:(id)sender;

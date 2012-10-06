@@ -14,6 +14,8 @@
 #import "RootViewController.h"
 #import "FlurryAnalytics.h"
 #import "Crittercism.h"
+#import "InAppRageIAPHelper.h"
+
 //JNDBX72ADY2XNGWM1AT3
 @implementation AppDelegate
 
@@ -22,7 +24,6 @@
 void uncaughtExceptionHandler(NSException *exception) {
     [FlurryAnalytics logError:@"Uncaught" message:@"Crash!" exception:exception];
 }
-
 
 - (void) removeStartupFlicker
 {
@@ -51,8 +52,10 @@ void uncaughtExceptionHandler(NSException *exception) {
 
     //Setup Flurry
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-    [FlurryAnalytics startSession:@"JNDBX72ADY2XNGWM1AT3"];
+
     
+    // Override point for customization after application launch.
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:[InAppRageIAPHelper sharedHelper]];
     
     
 	// Init the window
@@ -126,7 +129,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	
 	// Run the intro Scene
 	[[CCDirector sharedDirector] runWithScene: [HelloWorldLayer scene]];
-    
+    /*
     [Crittercism initWithAppID:@"4ec562493f5b313baf0001c2"
                         andKey:@"4ec562493f5b313baf0001c2iylccbqi"
                      andSecret:@"ey8zvcki7ugmxsbs0d3knnamtfy2hpwl"
@@ -135,7 +138,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 
     // Add your delegate to the Crittercism shared object
     [Crittercism sharedInstance].delegate = self;
-
+    [FlurryAnalytics startSession:@"JNDBX72ADY2XNGWM1AT3"];
+*/
 }
 
 

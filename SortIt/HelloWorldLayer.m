@@ -14,8 +14,8 @@
 #import "SortAction.h"
 #import "ConfigMenuViewController.h"
 #import "CocoaHelper.h"
-#import "FlurryAnalytics.h"
 #import "AppDelegate.h"
+#import "Flurry.h"
 
 
 // HelloWorldLayer implementation
@@ -31,8 +31,6 @@
 @synthesize spriteElements;
 @synthesize elements;
 @synthesize actionQueue;
-
-
 
 +(CCScene *) scene
 {
@@ -64,6 +62,7 @@
         if (size.width == 1024) {
             //IPAD
             titleFontSize = 64;
+            menuFontSize = 52;
             fontSize = 24;
             resOffset = 0.9;
             
@@ -71,6 +70,7 @@
         }else{
             //iPhone
             titleFontSize = 24;
+            menuFontSize = 20;
             fontSize = 16;
             resOffset = 0.9;
         }
@@ -98,19 +98,20 @@
         [self addChild:menu];
         */
         
-        CCLabelTTF *sort1 = [CCLabelTTF labelWithString:@"Heap Sort" fontName:@"Marker Felt" fontSize:titleFontSize];
-        CCLabelTTF *sort2 = [CCLabelTTF labelWithString:@"Bubble Sort" fontName:@"Marker Felt" fontSize:titleFontSize];
-        CCLabelTTF *sort3 = [CCLabelTTF labelWithString:@"Selection Sort" fontName:@"Marker Felt" fontSize:titleFontSize];
-        CCLabelTTF *sort4 = [CCLabelTTF labelWithString:@"Insertion Sort" fontName:@"Marker Felt" fontSize:titleFontSize];
-        CCLabelTTF *sort5 = [CCLabelTTF labelWithString:@"Quick Sort" fontName:@"Marker Felt" fontSize:titleFontSize];
-        CCLabelTTF *inAppPurchase = [CCLabelTTF labelWithString:@"In App Purchase" fontName:@"Marker Felt" fontSize:titleFontSize];
+        CCLabelTTF *sort1 = [CCLabelTTF labelWithString:@"Heap Sort" fontName:@"Marker Felt" fontSize:menuFontSize];
+        CCLabelTTF *sort2 = [CCLabelTTF labelWithString:@"Bubble Sort" fontName:@"Marker Felt" fontSize:menuFontSize];
+        CCLabelTTF *sort3 = [CCLabelTTF labelWithString:@"Selection Sort" fontName:@"Marker Felt" fontSize:menuFontSize];
+        CCLabelTTF *sort4 = [CCLabelTTF labelWithString:@"Insertion Sort" fontName:@"Marker Felt" fontSize:menuFontSize];
+        CCLabelTTF *sort5 = [CCLabelTTF labelWithString:@"Quick Sort" fontName:@"Marker Felt" fontSize:menuFontSize];
+        CCLabelTTF *sort6 = [CCLabelTTF labelWithString:@"Shuttle Sort (Cocktail Sort)" fontName:@"Marker Felt" fontSize:menuFontSize];
+        
         
         CCMenuItemFont *menuItem1 = [CCMenuItemLabel itemWithLabel:sort1 target:self selector:@selector(startHeapSort:) ];
         CCMenuItemFont *menuItem2 = [CCMenuItemLabel itemWithLabel:sort2 target:self selector:@selector(startBubbleSort:)];
         CCMenuItemFont *menuItem3 = [CCMenuItemLabel itemWithLabel:sort3 target:self selector:@selector(startSelectionSort:)];
         CCMenuItemFont *menuItem4 = [CCMenuItemLabel itemWithLabel:sort4 target:self selector:@selector(startInsertionSort:)];
         CCMenuItemFont *menuItem5 = [CCMenuItemLabel itemWithLabel:sort5 target:self selector:@selector(startQuickSort:)];
-        CCMenuItemFont *menuItem6 = [CCMenuItemLabel itemWithLabel:inAppPurchase target:self selector:@selector(inAppPurchaseButton:)];
+        CCMenuItemFont *menuItem6 = [CCMenuItemLabel itemWithLabel:sort6 target:self selector:@selector(startShuttleSort:)];
     
         
         menu = [CCMenu menuWithItems:menuItem1, menuItem2, menuItem3, menuItem4, menuItem5,menuItem6, nil];
@@ -229,7 +230,7 @@
     
     [self sort:self];
     
-    [FlurryAnalytics logEvent:@"Heap Sort"];
+    [Flurry logEvent:@"Heap Sort"];
     
 }
 
@@ -253,7 +254,7 @@
     
     [self sort:self];
     
-    [FlurryAnalytics logEvent:@"Insertion Sort"];
+    [Flurry logEvent:@"Insertion Sort"];
     
 }
 
@@ -277,7 +278,7 @@
     
     [self sort:self];
     
-    [FlurryAnalytics logEvent:@"Bubble Sort"];
+    [Flurry logEvent:@"Bubble Sort"];
 }
 
 - (void)startSelectionSort:(id)sender{
@@ -300,7 +301,7 @@
     
     [self sort:self];
     
-    [FlurryAnalytics logEvent:@"Selection Sort"];
+    [Flurry logEvent:@"Selection Sort"];
     
 }
 
@@ -323,8 +324,33 @@
     
     [self sort:self];
     
-    [FlurryAnalytics logEvent:@"Quick Sort"];
+    [Flurry logEvent:@"Quick Sort"];
 }
+
+
+- (void)startShuttleSort:(id)sender{
+    if(actionQueue != nil){
+        [actionQueue release];
+    }
+    actionQueue = [[NSMutableArray alloc] init];
+    
+    menu.visible = FALSE;
+    doneMenu.visible = TRUE;
+    
+    [self createElements];
+    
+    shuttleSort = [[ShuttleSort alloc] initWithArray:elements];
+    shuttleSort.delegate = self;
+    [shuttleSort run];
+    
+    [shuttleSort release];
+    
+    [self sort:self];
+    
+    [Flurry logEvent:@"Shuttle Sort"];
+}
+
+
 
 - (void)createElements{
     
@@ -691,6 +717,64 @@
 }
 
 - (void)pivotItemQuick:(QuickSort *)quickSort item:(int)item{
+    
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+    
+    SortAction *action = [[[SortAction alloc] init] autorelease];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y + 50;
+    action.firstLocation = temp;
+    action.arrow = redArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
+}
+
+
+#pragma mark - ShuttleSortDelegate
+
+- (void)exchangeItemsShuttle:(ShuttleSort *)shuttleSort first:(int)first second:(int)second{
+    
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:first];
+    CCLabelTTF *secondSprite =  [spriteElements objectAtIndex:second];
+    
+    SortAction *action = [[[SortAction alloc] init] autorelease];
+    action.firstIndex = first;
+    action.firstLocation = firstSprite.position;
+    action.secondIndex = second;
+    action.secondLocation = secondSprite.position;
+    action.isArrow = FALSE;
+    [actionQueue addObject:action];
+}
+
+- (void)currentItemShuttle:(ShuttleSort *)shuttleSort item:(int)item{
+    
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+    
+    SortAction *action = [[[SortAction alloc] init] autorelease];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y - 50;
+    action.firstLocation = temp;
+    action.arrow = greenArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
+}
+
+- (void)compareItemShuttle:(ShuttleSort *)shuttleSort item:(int)item{
+    CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
+    
+    SortAction *action = [[[SortAction alloc] init] autorelease];
+    action.firstIndex = item;
+    CGPoint temp = firstSprite.position;
+    temp.y = temp.y + 50;
+    action.firstLocation = temp;
+    action.arrow = blueArrow;
+    action.isArrow = TRUE;
+    [actionQueue addObject:action];
+}
+
+- (void)pivotItemShuttle:(ShuttleSort *)shuttleSort item:(int)item{
     
     CCLabelTTF *firstSprite =  [spriteElements objectAtIndex:item];
     

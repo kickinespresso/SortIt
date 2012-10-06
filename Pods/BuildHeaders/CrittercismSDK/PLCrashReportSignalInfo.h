@@ -1,0 +1,1 @@
+../../CrittercismSDK/CrittercismSDK-crashonly/PLCrashReportSignalInfo.h

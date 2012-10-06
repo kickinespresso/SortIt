@@ -12,16 +12,15 @@
 #import "GameConfig.h"
 #import "HelloWorldLayer.h"
 #import "RootViewController.h"
-#import "FlurryAnalytics.h"
 #import "Crittercism.h"
+#import "Flurry.h"
 
-//JNDBX72ADY2XNGWM1AT3
 @implementation AppDelegate
 
 @synthesize window, viewController;
 
 void uncaughtExceptionHandler(NSException *exception) {
-    [FlurryAnalytics logError:@"Uncaught" message:@"Crash!" exception:exception];
+    [Flurry logError:@"Uncaught" message:@"Crash!" exception:exception];
 }
 
 - (void) removeStartupFlicker
@@ -59,8 +58,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 	
 	// Try to use CADisplayLink director
 	// if it fails (SDK < 3.1) use the default director
-	if( ! [CCDirector setDirectorType:kCCDirectorTypeDisplayLink] )
-		[CCDirector setDirectorType:kCCDirectorTypeDefault];
 	
 	
 	CCDirector *director = [CCDirector sharedDirector];
@@ -82,6 +79,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	
 	// attach the openglView to the director
 	[director setOpenGLView:glView];
+
 	
 //	// Enables High Res mode (Retina Display) on iPhone 4 and maintains low res on all other devices
 //	if( ! [director enableRetinaDisplay:YES] )
@@ -96,15 +94,11 @@ void uncaughtExceptionHandler(NSException *exception) {
 	// By default, this template only supports Landscape orientations.
 	// Edit the RootViewController.m file to edit the supported orientations.
 	//
-#if GAME_AUTOROTATION == kGameAutorotationUIViewController
-	[director setDeviceOrientation:kCCDeviceOrientationPortrait];
-#else
-	[director setDeviceOrientation:kCCDeviceOrientationLandscapeLeft];
-#endif
-	
+    
 	[director setAnimationInterval:1.0/60];
 	//[director setDisplayFPS:YES];
-	[director setDisplayFPS:NO];
+
+
 	
 	// make the OpenGLView a child of the view controller
 	[viewController setView:glView];
@@ -180,7 +174,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 -(void)crittercismDidCrashOnLastLoad {
     
     NSLog(@"App crashed the last time it was loaded");
-    [FlurryAnalytics logEvent:@"Crittercism: App crashed the last time it was loaded"];
+    [Flurry logEvent:@"Crittercism: App crashed the last time it was loaded"];
     
 }
 

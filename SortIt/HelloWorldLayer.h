@@ -15,13 +15,15 @@
 #import "SelectionSort.h"
 #import "InsertionSort.h"
 #import "QuickSort.h"
+#import "ShuttleSort.h"
 #import "ConfigMenuViewController.h"
 #import "ConfigMenuViewControlleriPhone.h"
 #import "RootViewController.h"
 
 
+
 // HelloWorldLayer
-@interface HelloWorldLayer  : CCLayer <HeapSortDelegate, MergeSortDelegate, BubbleSortDelegate, SelectionSortDelegate, InsertionSortDelegate, QuickSortDelegate, ConfigMenuViewControllerDelegate> {
+@interface HelloWorldLayer  : CCLayer <HeapSortDelegate, MergeSortDelegate, BubbleSortDelegate, SelectionSortDelegate, InsertionSortDelegate, QuickSortDelegate, ShuttleSortDelegate,ConfigMenuViewControllerDelegate> {
     
     HeapSort* heapSort;
     MergeSort* mergeSort;
@@ -29,6 +31,7 @@
     SelectionSort* selectionSort;
     InsertionSort* insertionSort;
     QuickSort*      quickSort;
+    ShuttleSort*    shuttleSort;
     
     CCSprite*   greenArrow;
     CCSprite*   redArrow;
@@ -40,6 +43,7 @@
     NSMutableArray* actionQueue;
     
     int titleFontSize;
+    int menuFontSize;
     int fontSize;
     float resOffset;
     
@@ -52,6 +56,9 @@
     //ConfigMenuViewControlleriPhone *configMenuViewControlleriPhone;
     //This is a trick, AdMob uses a viewController to display its Ads, trust me, you'll need this
 	RootViewController *viewController;
+    
+
+    
     
 }
 
@@ -66,6 +73,9 @@
 @property (nonatomic, retain) NSMutableArray* elements;
 @property (nonatomic, retain) NSMutableArray* actionQueue;
 
+@property (nonatomic, retain) id adBannerView;
+@property (nonatomic) BOOL adBannerViewIsVisible;
+
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
 - (void)start:(id)sender;
@@ -77,6 +87,7 @@
 - (void)startBubbleSort:(id)sender;
 - (void)startSelectionSort:(id)sender;
 - (void)startQuickSort:(id)sender;
+- (void)startShuttleSort:(id)sender;
 
 - (void)sort:(id)sender;
 

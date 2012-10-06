@@ -8,7 +8,7 @@
 
 #import "ConfigMenuViewController.h"
 #import "CocoaHelper.h"
-#import "FlurryAnalytics.h"
+#import "Flurry.h"
 #import "Crittercism.h"
 
 @implementation ConfigMenuViewController

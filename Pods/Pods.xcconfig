@@ -1,0 +1,8 @@
+ALWAYS_SEARCH_USER_PATHS = YES
+PODS_BUILD_HEADERS_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/CrittercismSDK" "${PODS_ROOT}/BuildHeaders/FlurrySDK" "${PODS_ROOT}/BuildHeaders/cocos2d" "${PODS_ROOT}/BuildHeaders/cocos2d/Support" "${PODS_ROOT}/BuildHeaders/external/kazmath/include/kazmath/GL" "${PODS_ROOT}/BuildHeaders/cocos2d/Platforms/Mac" "${PODS_ROOT}/BuildHeaders/cocos2d/Platforms" "${PODS_ROOT}/BuildHeaders/external/kazmath/include/kazmath" "${PODS_ROOT}/BuildHeaders/cocos2d/Platforms/iOS"
+LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)/CrittercismSDK/CrittercismSDK-crashonly" "$(PODS_ROOT)/FlurrySDK/Flurry"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/cocos2d/external/kazmath/include" "${PODS_ROOT}/cocos2d/external/kazmath/include" ${PODS_HEADERS_SEARCH_PATHS}
+PODS_PUBLIC_HEADERS_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/CrittercismSDK" "${PODS_ROOT}/Headers/FlurrySDK" "${PODS_ROOT}/Headers/cocos2d" "${PODS_ROOT}/Headers/cocos2d/Support" "${PODS_ROOT}/Headers/external/kazmath/include/kazmath/GL" "${PODS_ROOT}/Headers/cocos2d/Platforms/Mac" "${PODS_ROOT}/Headers/cocos2d/Platforms" "${PODS_ROOT}/Headers/external/kazmath/include/kazmath" "${PODS_ROOT}/Headers/cocos2d/Platforms/iOS"
+PODS_HEADERS_SEARCH_PATHS = ${PODS_PUBLIC_HEADERS_SEARCH_PATHS}
+OTHER_LDFLAGS = -ObjC -lCrittercismCrashOnly_v3_3_4 -lFlurry -lz -framework AVFoundation -framework AudioToolbox -framework GameKit -framework OpenAL -framework OpenGLES -framework QuartzCore -framework SystemConfiguration
+PODS_ROOT = ${SRCROOT}/Pods

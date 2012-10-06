@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <iAd/iAd.h>
 
 
-@interface RootViewController : UIViewController {
+@interface RootViewController : UIViewController <ADBannerViewDelegate>{
+    ADBannerView *bannerView;
 
 }
+
+@property (nonatomic,retain) ADBannerView *bannerView
 
 @end

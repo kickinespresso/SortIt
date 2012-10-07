@@ -17,6 +17,7 @@
 #import "GameConfig.h"
 #import "HelloWorldLayer.h"
 #import "Constants.h"
+#import "Flurry.h"
 
 @implementation RootViewController
 
@@ -190,12 +191,27 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     // Run the intro Scene
+    CGFloat systemVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
+    NSString* version = [NSString stringWithFormat:@"OS Version: %f",systemVersion ];
+    //NSLog(@"%@",version);
+    [Flurry logEvent:[NSString stringWithFormat:@"OS Version: %f",systemVersion ]];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        //iPad
+        //IPAD
+        
+       [Flurry logEvent:@"Device Type: iPad"];
+
+    }else{
+        //iPhone
+        
+        
+       [Flurry logEvent:@"Device Type: iPhone"];
+        
+    }
+    
 
     
-#ifdef IOS_NEWER_OR_EQUAL_TO_6
-    //[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeOrientation:) name:@"UIDeviceOrientationDidChangeNotification" object:[UIDevice currentDevice]];
-#endif
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -316,6 +332,13 @@
     [super dealloc];
 }
 
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error{
+    
+
+    [Flurry logEvent:@"Failed to Recieve iAd. No Ad Showing."];
+    //Do Nothing
+    [self moveBannerOffScreen];
+}
 
 -(void) moveBannerOffScreen
 {

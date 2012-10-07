@@ -62,17 +62,36 @@
         CGSize size;
         
         CGFloat systemVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
-        
-        
+
         if(systemVersion < 5.0 ){
+            NSLog(@"ios 4.3");
             size.width = sizePortriat.height;
             size.height = sizePortriat.width;
+            
+            
+            
         }else if(systemVersion >= 6.0 ){
+            NSLog(@"ios 6");
             //size.width = sizePortriat.height;
             //size.height = sizePortriat.width;
             size = sizePortriat;
         }else{
-            size = sizePortriat;
+            NSLog(@"ios 5");
+            
+            if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
+                ([UIScreen mainScreen].scale == 2.0)) {
+                // Retina display
+                 NSLog(@"Retina");
+                size.width = 480;
+                size.height = 1024;
+                //size = sizePortriat;
+                
+            } else {
+                // non-Retina display
+                size = sizePortriat;
+            }
+            
+            
         }
 
         
@@ -94,11 +113,25 @@
             //iPhone
             
             NSLog(@"Iphone");
-            titleFontSize = 24;
-            menuFontSize = 20;
-            fontSize = 16;
-            resOffset = 0.8;
-        
+            if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
+                ([UIScreen mainScreen].scale == 2.0)) {
+                // Retina display
+                // non-Retina display
+                titleFontSize = 24;
+                menuFontSize = 20;
+                fontSize = 16;
+                resOffset = 0.7;
+                
+            } else {
+                // non-Retina display
+                titleFontSize = 24;
+                menuFontSize = 20;
+                fontSize = 16;
+                resOffset = 0.8;
+                
+            }
+
+
         
         }
         
@@ -114,8 +147,8 @@
 	
 		// position the label on the center of the screen
 		label.position =  ccp( size.width /2 , size.height * resOffset );
-        //NSLog(@"height: %f", size.height );
-        //NSLog(@"width: %f", size.width );
+        NSLog(@"height: %f", size.height );
+        NSLog(@"width: %f", size.width );
         
        // NSLog(@"screen height: %f", screenbounds.size.height );
         //NSLog(@"screen width: %f", screenbounds.size.width );
@@ -167,15 +200,37 @@
         doneMenu = [CCMenu menuWithItems:doneButton, nil];
         [self addChild:doneMenu];
         doneMenu.visible = FALSE;
-        doneMenu.position=ccp(size.width * .1 ,size.height *.2);
+
+        if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
+            ([UIScreen mainScreen].scale == 2.0)) {
+            // Retina display
+            // non-Retina display
+            doneMenu.position=ccp(size.width * .4 ,size.height *.4);
+            
+        } else {
+            // non-Retina display
+           doneMenu.position=ccp(size.width * .1 ,size.height *.2);
+            
+        }
+        
         
         CCLabelTTF *optionsLabel = [CCLabelTTF labelWithString:@"Options" fontName:@"Marker Felt" fontSize:titleFontSize];
         CCMenuItemFont *optionsButton = [CCMenuItemLabel itemWithLabel:optionsLabel target:self selector:@selector(optionsButton:)];
         
         CCMenu* optionsMenu = [CCMenu menuWithItems:optionsButton, nil];
         [self addChild:optionsMenu];
-
-        optionsMenu.position=ccp(size.width * .9 ,size.height *.2);
+        if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
+            ([UIScreen mainScreen].scale == 2.0)) {
+            // Retina display
+            // non-Retina display
+            optionsMenu.position=ccp(size.width * .6 ,size.height *.4);
+            
+        } else {
+            // non-Retina display
+            optionsMenu.position=ccp(size.width * .9 ,size.height *.2);
+            
+        }
+        
         
 	}
     
@@ -398,8 +453,22 @@
 
     int num = 10;
     CGSize size = [[CCDirector sharedDirector] winSize];
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
+        ([UIScreen mainScreen].scale == 2.0)) {
+        // Retina display
+        NSLog(@"Retina");
+        size.width = 480;
+        size.height = 1024;
+        //size = sizePortriat;
+        
+    } else {
+        // non-Retina display
+        
+    }
     int spacing = size.width / num;
     
+    
+
     
     //NSLog(@"Elem height: %f", size.height );
     //NSLog(@"Elem width: %f", size.width );

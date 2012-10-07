@@ -59,6 +59,14 @@
 		23D997381459FB79005D0DD2 /* SortAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 23D997371459FB78005D0DD2 /* SortAction.m */; };
 		23EF5BA21472F5C000835B15 /* ConfigMenuViewControlleriPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 23EF5BA01472F5C000835B15 /* ConfigMenuViewControlleriPhone.m */; };
 		23EF5BA31472F5C000835B15 /* ConfigMenuViewControlleriPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23EF5BA11472F5C000835B15 /* ConfigMenuViewControlleriPhone.xib */; };
+		23EF9D8516220AD800698452 /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 23EF9D8416220AD800698452 /* IntroLayer.m */; };
+		23EF9F071622145B00698452 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23EF9F061622145B00698452 /* Icon-72@2x.png */; };
+		23EF9F09162214E400698452 /* Sorting@2x144.png in Resources */ = {isa = PBXBuildFile; fileRef = 23EF9F08162214E400698452 /* Sorting@2x144.png */; };
+		23EF9F0B162215B100698452 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23EF9F0A162215B100698452 /* Default@2x.png */; };
+		23EF9F0D1622162D00698452 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 23EF9F0C1622162D00698452 /* Default-Portrait~ipad.png */; };
+		23EF9F0F1622163000698452 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 23EF9F0E1622163000698452 /* Default-Portrait@2x~ipad.png */; };
+		23EF9F11162218B300698452 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 23EF9F10162218B300698452 /* Default-Landscape~ipad.png */; };
+		23EF9F13162218B700698452 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 23EF9F12162218B700698452 /* Default-Landscape@2x~ipad.png */; };
 		8CC808BD85754F92A7B13629 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D54701B140447E0A2C3E75E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -137,6 +145,15 @@
 		23EF5B9F1472F5C000835B15 /* ConfigMenuViewControlleriPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigMenuViewControlleriPhone.h; sourceTree = "<group>"; };
 		23EF5BA01472F5C000835B15 /* ConfigMenuViewControlleriPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigMenuViewControlleriPhone.m; sourceTree = "<group>"; };
 		23EF5BA11472F5C000835B15 /* ConfigMenuViewControlleriPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigMenuViewControlleriPhone.xib; sourceTree = "<group>"; };
+		23EF9D8316220AD800698452 /* IntroLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroLayer.h; sourceTree = "<group>"; };
+		23EF9D8416220AD800698452 /* IntroLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroLayer.m; sourceTree = "<group>"; };
+		23EF9F061622145B00698452 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
+		23EF9F08162214E400698452 /* Sorting@2x144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sorting@2x144.png"; sourceTree = "<group>"; };
+		23EF9F0A162215B100698452 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		23EF9F0C1622162D00698452 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		23EF9F0E1622163000698452 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		23EF9F10162218B300698452 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		23EF9F12162218B700698452 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		4EAD38CD1CDD4BCD8F71D78C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -215,6 +232,13 @@
 		23D995BA1459A2F6005D0DD2 = {
 			isa = PBXGroup;
 			children = (
+				23EF9F12162218B700698452 /* Default-Landscape@2x~ipad.png */,
+				23EF9F10162218B300698452 /* Default-Landscape~ipad.png */,
+				23EF9F0E1622163000698452 /* Default-Portrait@2x~ipad.png */,
+				23EF9F0C1622162D00698452 /* Default-Portrait~ipad.png */,
+				23EF9F0A162215B100698452 /* Default@2x.png */,
+				23EF9F08162214E400698452 /* Sorting@2x144.png */,
+				23EF9F061622145B00698452 /* Icon-72@2x.png */,
 				2340AA5F1620BA160043337E /* Default-568h@2x.png */,
 				23D995D91459A2F6005D0DD2 /* Sorting */,
 				23D995C61459A2F6005D0DD2 /* Products */,
@@ -274,6 +298,8 @@
 				23D997281459A2F7005D0DD2 /* RootViewController.m */,
 				23D9972A1459A2F7005D0DD2 /* HelloWorldLayer.h */,
 				23D9972B1459A2F7005D0DD2 /* HelloWorldLayer.m */,
+				23EF9D8316220AD800698452 /* IntroLayer.h */,
+				23EF9D8416220AD800698452 /* IntroLayer.m */,
 				23D9972D1459A2F7005D0DD2 /* GameConfig.h */,
 				236F66DE149BF26B004E1E6C /* MBProgressHUD.h */,
 				236F66DF149BF26B004E1E6C /* MBProgressHUD.m */,
@@ -379,6 +405,13 @@
 				236F66CF149BB9C3004E1E6C /* IAPPuchased.plist in Resources */,
 				236F66D1149BB9D6004E1E6C /* IAPProducts.plist in Resources */,
 				2340AA601620BA160043337E /* Default-568h@2x.png in Resources */,
+				23EF9F071622145B00698452 /* Icon-72@2x.png in Resources */,
+				23EF9F09162214E400698452 /* Sorting@2x144.png in Resources */,
+				23EF9F0B162215B100698452 /* Default@2x.png in Resources */,
+				23EF9F0D1622162D00698452 /* Default-Portrait~ipad.png in Resources */,
+				23EF9F0F1622163000698452 /* Default-Portrait@2x~ipad.png in Resources */,
+				23EF9F11162218B300698452 /* Default-Landscape~ipad.png in Resources */,
+				23EF9F13162218B700698452 /* Default-Landscape@2x~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +469,7 @@
 				236F66E2149BF26C004E1E6C /* MBProgressHUD.m in Sources */,
 				236F66E3149BF26C004E1E6C /* Reachability.m in Sources */,
 				2340AA5D1620B7DB0043337E /* ShuttleSort.m in Sources */,
+				23EF9D8516220AD800698452 /* IntroLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

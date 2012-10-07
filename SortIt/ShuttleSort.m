@@ -28,10 +28,10 @@
 }
 
 - (void)run{
-    NSLog(@"Starting Shuttle Sort");
-    NSLog(@"Before %@",[elements description]);
+    //NSLog(@"Starting Shuttle Sort");
+    //NSLog(@"Before %@",[elements description]);
     [self shuttleSort:elements];
-    NSLog(@"After: %@",[elements description]);
+    //NSLog(@"After: %@",[elements description]);
 }
 
 

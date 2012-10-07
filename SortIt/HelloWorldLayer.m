@@ -57,22 +57,57 @@
         gameSpeed = 1;
         
         // ask director the the window size
-		CGSize size = [[CCDirector sharedDirector] winSize];
+		CGSize sizePortriat = [[CCDirector sharedDirector] winSize];
+
+        CGSize size;
         
-        if (size.width == 1024) {
+        CGFloat systemVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
+        
+        
+        if(systemVersion < 5.0 ){
+            size.width = sizePortriat.height;
+            size.height = sizePortriat.width;
+        }else if(systemVersion >= 6.0 ){
+            //size.width = sizePortriat.height;
+            //size.height = sizePortriat.width;
+            size = sizePortriat;
+        }else{
+            size = sizePortriat;
+        }
+
+        
+        
+        
+        
+        
+        //Check Device type
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+            //iPad
             //IPAD
+            
+             NSLog(@"IPAD");
             titleFontSize = 64;
             menuFontSize = 52;
             fontSize = 24;
-            resOffset = 0.9;
-            
-            
+            resOffset = 0.8;
         }else{
             //iPhone
+            
+            NSLog(@"Iphone");
             titleFontSize = 24;
             menuFontSize = 20;
             fontSize = 16;
-            resOffset = 0.9;
+            resOffset = 0.8;
+        
+        
+        }
+        
+        if (size.width == 1024) {
+          
+            
+            
+        }else{
+
         }
 		// create and initialize a Label
 		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Sorting" fontName:@"Marker Felt" fontSize:titleFontSize];
@@ -80,7 +115,11 @@
 		// position the label on the center of the screen
 		label.position =  ccp( size.width /2 , size.height * resOffset );
         //NSLog(@"height: %f", size.height );
-        //NSLog(@"width: %f", size.width ); 
+        //NSLog(@"width: %f", size.width );
+        
+       // NSLog(@"screen height: %f", screenbounds.size.height );
+        //NSLog(@"screen width: %f", screenbounds.size.width );
+        
         
        
 		
@@ -120,6 +159,7 @@
         [self addChild:menu];
     
 		menu.position=ccp(size.width /2 ,size.height /2);
+        //menu.position=ccp(200 ,size.height /2);
         
         CCLabelTTF *doneLabel = [CCLabelTTF labelWithString:@"Done" fontName:@"Marker Felt" fontSize:titleFontSize];
         CCMenuItemFont *doneButton = [CCMenuItemLabel itemWithLabel:doneLabel target:self selector:@selector(doneButton:)];
@@ -359,6 +399,10 @@
     int num = 10;
     CGSize size = [[CCDirector sharedDirector] winSize];
     int spacing = size.width / num;
+    
+    
+    //NSLog(@"Elem height: %f", size.height );
+    //NSLog(@"Elem width: %f", size.width );
     
     //Clean Up
     if(elements != nil){

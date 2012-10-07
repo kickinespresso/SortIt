@@ -24,14 +24,14 @@
 
 - (id)initWithArray:(NSMutableArray*)aArray;
 - (void)run;
-- (void)shuttleSort:(NSMutableArray*)array left:(int)left right:(int)right;
+- (void)shuttleSort:(NSMutableArray*)array;
 
 @end
 
 
 @protocol ShuttleSortDelegate <NSObject>
 
-- (void)exchangeItemsShuttle:(ShuttleSort *)shuttleSort;
+- (void)exchangeItemsShuttle:(ShuttleSort *)shuttleSort first:(int)first second:(int)second;
 - (void)currentItemShuttle:(ShuttleSort *)shuttleSort item:(int)item;
 - (void)compareItemShuttle:(ShuttleSort *)shuttleSort item:(int)item;
 - (void)pivotItemShuttle:(ShuttleSort *)shuttleSort item:(int)item;

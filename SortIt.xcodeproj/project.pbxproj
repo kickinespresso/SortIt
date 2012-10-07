@@ -14,8 +14,6 @@
 		2311B29C1471CE5F00500D9A /* icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 2311B29B1471CE5F00500D9A /* icon-Small-50.png */; };
 		2340AA5D1620B7DB0043337E /* ShuttleSort.m in Sources */ = {isa = PBXBuildFile; fileRef = 2340AA5C1620B7DB0043337E /* ShuttleSort.m */; };
 		2340AA601620BA160043337E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2340AA5F1620BA160043337E /* Default-568h@2x.png */; };
-		2340AAFF162111E70043337E /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2340AAFB162111E40043337E /* MainStoryboard_iPad.storyboard */; };
-		2340AB00162111E70043337E /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2340AAFD162111E50043337E /* MainStoryboard_iPhone.storyboard */; };
 		23620C801471CCCA00960C7E /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 23620C7F1471CCCA00960C7E /* icon-72.png */; };
 		23695B81148001B000318306 /* QuickSort.m in Sources */ = {isa = PBXBuildFile; fileRef = 23695B80148001B000318306 /* QuickSort.m */; };
 		236F66CF149BB9C3004E1E6C /* IAPPuchased.plist in Resources */ = {isa = PBXBuildFile; fileRef = 236F66CE149BB9C3004E1E6C /* IAPPuchased.plist */; };
@@ -75,8 +73,6 @@
 		2340AA5C1620B7DB0043337E /* ShuttleSort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShuttleSort.m; sourceTree = "<group>"; };
 		2340AA5F1620BA160043337E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2340AA971620FE720043337E /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		2340AAFC162111E50043337E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		2340AAFE162111E70043337E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		23620C7F1471CCCA00960C7E /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "../icon-72.png"; sourceTree = "<group>"; };
 		23695B7F148001B000318306 /* QuickSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuickSort.h; sourceTree = "<group>"; };
 		23695B80148001B000318306 /* QuickSort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuickSort.m; sourceTree = "<group>"; };
@@ -264,8 +260,6 @@
 		23D995D91459A2F6005D0DD2 /* Sorting */ = {
 			isa = PBXGroup;
 			children = (
-				2340AAFB162111E40043337E /* MainStoryboard_iPad.storyboard */,
-				2340AAFD162111E50043337E /* MainStoryboard_iPhone.storyboard */,
 				23AA85B51471F3E200AA29B7 /* CocoaHelper.h */,
 				23AA85B61471F3E200AA29B7 /* CocoaHelper.m */,
 				23AA85B91471F3FF00AA29B7 /* ConfigMenuViewController.h */,
@@ -385,8 +379,6 @@
 				236F66CF149BB9C3004E1E6C /* IAPPuchased.plist in Resources */,
 				236F66D1149BB9D6004E1E6C /* IAPProducts.plist in Resources */,
 				2340AA601620BA160043337E /* Default-568h@2x.png in Resources */,
-				2340AAFF162111E70043337E /* MainStoryboard_iPad.storyboard in Resources */,
-				2340AB00162111E70043337E /* MainStoryboard_iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,25 +440,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		2340AAFB162111E40043337E /* MainStoryboard_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2340AAFC162111E50043337E /* en */,
-			);
-			name = MainStoryboard_iPad.storyboard;
-			sourceTree = "<group>";
-		};
-		2340AAFD162111E50043337E /* MainStoryboard_iPhone.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2340AAFE162111E70043337E /* en */,
-			);
-			name = MainStoryboard_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		23D9972E1459A2F7005D0DD2 /* Debug */ = {
